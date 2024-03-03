@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "dependencies": {
+    "puppeteer": "^22.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "tsx": "^4.7.1"
+  },
+  "name": "betterchessarbiter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
