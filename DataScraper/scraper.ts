@@ -3,16 +3,27 @@ import * as fs from "fs";
 import path from "path";
 const url = "https://www.chessarbiter.com/";
 
+type urlsType = {
+  aTag:string
+}
+
 let eventPages: string[] = [];
-function delay(time:number) {
-    return new Promise(function(resolve) { 
-        setTimeout(resolve, time)
-    });
- }
-const ScrapeEventPage = async (url: string, browser: Browser) => {
+function delay(time: number) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, time);
+  });
+}
+const ScrapeEventPage = async (urls:urlsType[], browser:Browser) => {
+  if (!urls) return console.log("No urls passed as a parameter.");
+
   const page = await browser.newPage();
-  await page.goto(url);
   
+  for (let i=0;i<urls.length;i++){
+    await page.goto(urls[i].aTag);
+    
+
+  }
+
   const dataScrape = await page.evaluate(() => {
     const tables: NodeListOf<HTMLTableElement> =
       document.querySelectorAll(".panel-table");
@@ -54,10 +65,10 @@ const ScrapeFrontPage = async () => {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.goto(url);
-  
+
   const dataScrape = await page.evaluate(() => {
     const tournamentMonthTables = document.querySelectorAll("table");
-     return Array.from(tournamentMonthTables)
+    return Array.from(tournamentMonthTables)
       .slice(14)
       .flatMap((table) => {
         const AllTrs = table.querySelectorAll("tr");
@@ -70,7 +81,6 @@ const ScrapeFrontPage = async () => {
             const aTag = tr.querySelector("a");
             const title = aTag!.innerText;
             const eventUrl = aTag!.href;
-            //ScrapeEventPage(eventUrl, browser);
 
             if (szary.length > 0) {
               const status = szary[0].innerText;
@@ -101,18 +111,45 @@ const ScrapeFrontPage = async () => {
             }
           });
       });
-      
-
   });
-  const currentPath = path.resolve('.');
-  fs.writeFile(currentPath+'/baza.txt',JSON.stringify(dataScrape),err=>{
-    if(err){
-        console.log(err)
-    } else{
-        console.log("File written success");
+  const currentPath = path.resolve(".");
+  fs.writeFile(currentPath + "/baza.txt", JSON.stringify(dataScrape), (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("File written success");
     }
   });
   await browser.close();
 };
 
-ScrapeFrontPage();
+const ScrapeLinks = async (browser:Browser) => {  
+  const page = await browser.newPage();
+  await page.goto(url);
+
+  const dataScrape = await page.evaluate(() => {
+    const tournamentMonthTables = document.querySelectorAll("table");
+    return Array.from(tournamentMonthTables)
+      .slice(14)
+      .flatMap((table) => {
+        const AllTrs = table.querySelectorAll("tr");
+        return Array.from(AllTrs)
+          .slice(1)
+          .flatMap((tr) => {
+            const aTag = tr.querySelector("a")!.href;
+            return { aTag };
+          });
+      });
+    
+  });
+  browser.close();
+  return dataScrape;
+  
+};
+const ScrapingEventPages = async ()=>{
+  const browser = puppeteer.launch();
+  const linksArray = await ScrapeLinks(await browser);
+  await ScrapeEventPage(linksArray, await browser);
+
+  
+} 
