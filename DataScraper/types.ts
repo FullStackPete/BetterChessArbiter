@@ -1,25 +1,37 @@
-export type combinedObjectType = {
+export type TournamentsType = {
   title: string;
   eventUrl: string;
   county: string;
   status: string;
-  tournamentTempo: string;
+  tournamentType: string;
   isFide: boolean;
-  details: subdata;
+  details: FixedDetailsType;
 };
-export type urlsType = {
+export type UrlType = {
   aTag: string;
 };
 
-export type subdata = {
+export type DetailsType = {
   title: string;
-  startDate: string;
-  endDate: string;
+  startDate: number;
+  endDate: number;
   place: string;
   gameTempo: string;
   referee: string;
   organizer: string;
-  roundsTotal: string;
-  roundsEnded: string;
+  roundsTotal: number;
+  roundsEnded: number;
   system: string;
 };
+export type FixedDetailsType ={
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  place: string;
+  gameTempo: string;
+  referee: string;
+  organizer: string;
+  roundsTotal: number;
+  roundsEnded: number;
+  system: string;
+}

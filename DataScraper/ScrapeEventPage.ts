@@ -1,8 +1,15 @@
 import { Browser } from "puppeteer";
-import { subdata, urlsType } from "./types.js";
+import { DetailsType, UrlType } from "./types.js";
 
-export const ScrapeEventPage = async (urls: urlsType[], browser: Browser) => {
-  if (!urls) return console.log("No urls passed as a parameter.");
+type ScrapeEventpageFunctionType = (
+  arg1: UrlType[],
+  arg2: Browser
+) => Promise<DetailsType[]>;
+
+export const ScrapeEventPage: ScrapeEventpageFunctionType = async (
+  urls: UrlType[],
+  browser: Browser
+):Promise<DetailsType[]> => {  
   const commonData = [];
   const page = await browser.newPage();
 
@@ -13,7 +20,11 @@ export const ScrapeEventPage = async (urls: urlsType[], browser: Browser) => {
       const tables: NodeListOf<HTMLTableElement> =
         document.querySelectorAll(".panel-table");
       return Array.from(tables)
-        .filter((table) => table.innerText.includes("Informacje podstawowe"||"Main information"))
+        .filter((table) =>
+          table.innerText.includes(
+            "Informacje podstawowe" || "Main information"
+          )
+        )
         .flatMap((table) => {
           if (table.innerText.includes("Informacje podstawowe")) {
             const commonInfoTable = table.querySelectorAll("table");
@@ -21,29 +32,39 @@ export const ScrapeEventPage = async (urls: urlsType[], browser: Browser) => {
               .slice(1)
               .flatMap((table) => {
                 const commonInfo = table!.querySelectorAll("tr");
-                const subData: subdata = {
+                const startDate = Date.parse(
+                  commonInfo[1].querySelectorAll("td")[1].innerText
+                );
+                const endDate = Date.parse(
+                  commonInfo[2].querySelectorAll("td")[1].innerText
+                );
+
+                const subData: DetailsType = {
                   title: commonInfo[0].querySelectorAll("td")[1].innerText,
-                  startDate: commonInfo[1].querySelectorAll("td")[1].innerText,
-                  endDate: commonInfo[2].querySelectorAll("td")[1].innerText,
+                  startDate: startDate,
+                  endDate: endDate,
                   place: commonInfo[3].querySelectorAll("td")[1].innerText,
                   gameTempo: commonInfo[4].querySelectorAll("td")[1].innerText,
                   referee: commonInfo[5].querySelectorAll("td")[1].innerText,
                   organizer: commonInfo[6].querySelectorAll("td")[1].innerText,
-                  roundsTotal:
-                    commonInfo[8].querySelectorAll("td")[1].innerText,
-                  roundsEnded:
-                    commonInfo[7].querySelectorAll("td")[1].innerText,
+                  roundsTotal: Number(
+                    commonInfo[8].querySelectorAll("td")[1].innerText
+                  ),
+                  roundsEnded: Number(
+                    commonInfo[7].querySelectorAll("td")[1].innerText
+                  ),
                   system: commonInfo[9].querySelectorAll("td")[1].innerText,
                 };
-                console.log(subData);
+                // console.log(subData);
                 return subData;
               });
           }
         });
     });
-    console.log(dataScrape);
+    // console.log(dataScrape);
     commonData.push(dataScrape);
   }
-  await browser.close();
-  return commonData;
+  const flatCommonData = commonData.flat().filter((item):item is DetailsType=>item!==undefined);
+  
+  return flatCommonData;
 };

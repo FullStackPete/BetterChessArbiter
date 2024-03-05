@@ -21,7 +21,7 @@ export const ScrapeFrontPage = async (url: string, browser: Browser) => {
             if (szary.length > 0) {
               const status = szary[0].innerText;
               const county = szary[1].innerText;
-              let tournamentTempo = szary[2].innerText.replace("FIDE", "");
+              let tournamentType = szary[2].innerText.replace("FIDE", "");
               const isFIDE = szary[2].querySelector("sup")?.innerText;
               if (isFIDE !== "FIDE")
                 return {
@@ -29,7 +29,7 @@ export const ScrapeFrontPage = async (url: string, browser: Browser) => {
                   eventUrl,
                   county,
                   status,
-                  tournamentTempo,
+                  tournamentType,
                   isFide: false,
                 };
               return {
@@ -37,13 +37,12 @@ export const ScrapeFrontPage = async (url: string, browser: Browser) => {
                 eventUrl,
                 county,
                 status,
-                tournamentTempo,
+                tournamentType,
                 isFide: true,
               };
              }
           });
       });
-  });
+  });  
   return dataScrape;
-
 };
