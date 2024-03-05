@@ -8,7 +8,7 @@ const url = "https://www.chessarbiter.com/";
 import { combinedObjectType, subdata } from "./types.js";
 
 const main = async () => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false });
   const mainData = await ScrapeFrontPage(url, browser);
   const linksArray = await ScrapeLinks(url, browser);
   const subData:void|(subdata|undefined)[] = await ScrapeEventPage(linksArray, browser);
@@ -30,8 +30,9 @@ const main = async () => {
     }
   });
 
+  const combinedFlatData = combinedData.flat();
   const currentPath = path.resolve(".");
-  fs.writeFile(currentPath + "/db.txt", JSON.stringify(combinedData), (err) => {
+  fs.writeFile(currentPath + "/database.txt", JSON.stringify(combinedFlatData), (err) => {
     if (err) {
       console.log(err);
     } else {
