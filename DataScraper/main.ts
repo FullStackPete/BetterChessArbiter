@@ -19,9 +19,9 @@ const main = async () => {
 
   // Iterujemy po głównej danych
   const fixedDateSubData: FixedDetailsType[] = subData.map(
-    (subItem: DetailsType) => {      
+    (subItem: DetailsType) => {
       const newStartDate = new Date(subItem.startDate);
-      const newEndDate = new Date(subItem.endDate);      
+      const newEndDate = new Date(subItem.endDate);
       return { ...subItem, startDate: newStartDate, endDate: newEndDate };
     }
   );
@@ -38,11 +38,19 @@ const main = async () => {
       combinedData.push(combinedItem as TournamentsType);
     }
   });
-console.log(combinedData);
+
+  const finalData = combinedData.map((item) => {
+    const newItem = { ...item };
+    if (newItem.details) {
+      delete newItem.details.title;
+    }
+    return newItem;
+  });
+
   const currentPath = path.resolve(".");
   fs.writeFile(
     currentPath + "/database.txt",
-    JSON.stringify(combinedData),
+    JSON.stringify(finalData),
     (err) => {
       if (err) {
         console.log(err);

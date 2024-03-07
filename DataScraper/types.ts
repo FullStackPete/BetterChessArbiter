@@ -24,7 +24,7 @@ export type DetailsType = {
   system: string;
 };
 export type FixedDetailsType ={
-  title: string;
+  title?: string;
   startDate: Date;
   endDate: Date;
   place: string;
