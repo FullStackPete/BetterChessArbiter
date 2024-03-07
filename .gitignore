@@ -8,3 +8,5 @@ data.ts
 database.txt
 /.vs
 /bcaAPI/.vs
+bcaAPI\bcaAPI\appsettings.Development.json
+/bcaAPI/bcaAPI/appsettings.Development.json
