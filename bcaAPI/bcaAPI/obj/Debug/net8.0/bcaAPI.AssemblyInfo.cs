@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bcaAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dee904f9d4d89f155a322e6bee0cddef5a985d9e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("bcaAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bcaAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
