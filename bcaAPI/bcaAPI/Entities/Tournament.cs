@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using MongoDB.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace bcaAPI.Entities
@@ -16,6 +17,7 @@ namespace bcaAPI.Entities
         Blitz,
         Bullet
     }
+    [Collection("tournaments")]
     public class Tournament
     {         
         public ObjectId? UserId { get; set; }

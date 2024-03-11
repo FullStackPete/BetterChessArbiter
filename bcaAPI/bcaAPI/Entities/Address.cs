@@ -1,10 +1,14 @@
 ﻿using MongoDB.Bson;
+using MongoDB.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace bcaAPI.Entities
 {
+    [Collection("addresses")]
     public class Address
     {
+        [Required(ErrorMessage ="Address must have Id")]
+        public ObjectId Id { get; set; }
         [Required(ErrorMessage ="Address must have an assigned user!")]
         public ObjectId UserId { get; set; }
         [Required(ErrorMessage ="Country is required")]
@@ -18,5 +22,7 @@ namespace bcaAPI.Entities
         [Required(ErrorMessage ="You must enter a zip code")]
         
         public string PostalCode { get; set; }
+        [Required(ErrorMessage ="Specify whether the address is primary or not")]
+        public Boolean isPrimary {  get; set; }
     }
 }
