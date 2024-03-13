@@ -1,4 +1,4 @@
-﻿using bcaAPI.Entities;
+﻿using bcaAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.EntityFrameworkCore.Extensions;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace bcaAPI.Entities
+namespace bcaAPI.Models
 {
     public class TournamentDetails
     {

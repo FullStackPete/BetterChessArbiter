@@ -1,4 +1,4 @@
-﻿using bcaAPI.Entities;
+﻿using bcaAPI.Models;
 using MongoDB.Bson;
 
 namespace bcaAPI.Services.Interfaces

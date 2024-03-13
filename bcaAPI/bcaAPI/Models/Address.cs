@@ -2,7 +2,7 @@
 using MongoDB.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace bcaAPI.Entities
+namespace bcaAPI.Models
 {
     [Collection("addresses")]
     public class Address

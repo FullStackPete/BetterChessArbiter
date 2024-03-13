@@ -1,5 +1,5 @@
 ﻿using bcaAPI.DBContext;
-using bcaAPI.Entities;
+using bcaAPI.Models;
 using bcaAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
@@ -23,7 +23,7 @@ namespace bcaAPI.Services
             return _BCAContextDb.Users.FirstOrDefault(user => user.Id == id);
         }
         public void AddUser(User newUser)
-        {
+        {            
             var salt = _PasswordService.Salt();
             var saltedP = salt + newUser.Password;
             var hashedSaltedPassword = _PasswordService.HashPassword(saltedP);            

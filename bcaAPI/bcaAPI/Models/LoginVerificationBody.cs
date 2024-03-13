@@ -1,4 +1,4 @@
-﻿namespace bcaAPI.Entities
+﻿namespace bcaAPI.Models
 {
     public class LoginVerificationBody
     {

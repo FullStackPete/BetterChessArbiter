@@ -1,4 +1,4 @@
-﻿using bcaAPI.Entities;
+﻿using bcaAPI.Models;
 using bcaAPI.Services;
 using bcaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace bcaAPI.Controllers
 
         // GET: api/User
         [HttpGet]
-        public  ActionResult<IEnumerable<User>> GetUsers()
+        public ActionResult<IEnumerable<User>> GetUsers()
         {
             var users = _userService.GetAllUsers();
             return Ok(users);
@@ -64,7 +64,9 @@ namespace bcaAPI.Controllers
         // POST: api/User
         [HttpPost]
         public ActionResult<User> PostUser(User user)
-        {
+        {            
+            var emailInBase = _userService.FindByEmail(user.Email);
+            if (emailInBase != null) return BadRequest("Email is already in base");
             _userService.AddUser(user);
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }

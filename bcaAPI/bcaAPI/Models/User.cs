@@ -10,7 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Text;
 
-namespace bcaAPI.Entities
+namespace bcaAPI.Models
 {
     [Collection("users")]
     public class User

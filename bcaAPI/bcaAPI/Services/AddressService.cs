@@ -1,5 +1,5 @@
 ﻿using bcaAPI.DBContext;
-using bcaAPI.Entities;
+using bcaAPI.Models;
 using bcaAPI.Services.Interfaces;
 using MongoDB.Bson;
 
