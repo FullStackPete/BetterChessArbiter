@@ -47,8 +47,8 @@ namespace bcaAPI.Controllers
             {
                 _tournamentService.EditTournament(tournament);
             }
-            catch (DbUpdateConcurrencyException) {
-                return NotFound();
+            catch (DbUpdateConcurrencyException ex) {
+                return NotFound(ex.Message);
             }
             return Ok(tournament);
         }

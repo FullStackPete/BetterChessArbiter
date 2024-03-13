@@ -86,9 +86,9 @@ namespace bcaAPI.Controllers
             {
                 _userService.EditUser(user);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
 
             return NoContent();
