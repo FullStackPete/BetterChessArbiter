@@ -36,8 +36,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection(); 
+app.UseHttpsRedirection();
+app.UseRouting();
 
+// Enable CORS
+app.UseCors(options => options
+    .AllowAnyOrigin() // Mo¿esz równie¿ ustawiæ AllowSpecificOrigins i podaæ konkretne adresy URL frontendu
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+);
 app.UseAuthorization();
 
 app.MapControllers();
