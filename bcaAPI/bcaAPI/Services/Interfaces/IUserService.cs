@@ -6,7 +6,7 @@ namespace bcaAPI.Services.Interfaces
     public interface IUserService
     {
         IEnumerable<User> GetAllUsers();
-        User GetUserById(ObjectId id);
+        User GetUserById(Guid id);
 
         void AddUser(User newUser);
         void EditUser(User updatedUser);

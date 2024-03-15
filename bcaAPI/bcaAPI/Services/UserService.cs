@@ -16,10 +16,10 @@ namespace bcaAPI.Services
             _PasswordService = passwordService;
         }
         public IEnumerable<User> GetAllUsers()
-        {
-            return _BCAContextDb.Users.OrderBy(user=>user.Id).AsNoTracking().AsEnumerable<User>();
+        {            
+            return _BCAContextDb.Users.OrderBy(user => user.Id).AsNoTracking().AsEnumerable<User>(); ;
         }
-        public User? GetUserById(ObjectId id) {
+        public User GetUserById(Guid id) {
             return _BCAContextDb.Users.FirstOrDefault(user => user.Id == id);
         }
         public void AddUser(User newUser)

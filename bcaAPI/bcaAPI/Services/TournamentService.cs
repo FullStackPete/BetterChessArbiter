@@ -1,6 +1,7 @@
 ﻿using bcaAPI.DBContext;
 using bcaAPI.Models;
 using bcaAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 
 namespace bcaAPI.Services
@@ -14,7 +15,7 @@ namespace bcaAPI.Services
         }
 
         public void AddTournament(Tournament newTournament)
-        {
+        {                        
             _BCAContextDb.Tournaments.Add(newTournament);
             _BCAContextDb.ChangeTracker.DetectChanges();
             Console.WriteLine(_BCAContextDb.ChangeTracker.DebugView.LongView);
@@ -61,10 +62,10 @@ namespace bcaAPI.Services
 
         public IEnumerable<Tournament> GetAllTournaments()
         {
-            return _BCAContextDb.Tournaments.OrderBy(tournament=>tournament.Id);
+            return _BCAContextDb.Tournaments.OrderBy(tournament=>tournament.Id).AsNoTracking().AsEnumerable();
         }
 
-        public Tournament? GetTournamentById(ObjectId id)
+        public Tournament? GetTournamentById(Guid id)
         {
             return _BCAContextDb.Tournaments.FirstOrDefault(tournament => tournament.Id == id);
         }

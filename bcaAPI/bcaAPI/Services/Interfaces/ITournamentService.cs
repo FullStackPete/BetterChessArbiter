@@ -6,7 +6,7 @@ namespace bcaAPI.Services.Interfaces
     public interface ITournamentService
     {
         IEnumerable<Tournament> GetAllTournaments();
-        Tournament GetTournamentById(ObjectId id);
+        Tournament GetTournamentById(Guid id);
 
         void AddTournament(Tournament newTournament);
         void EditTournament(Tournament editedTournament);

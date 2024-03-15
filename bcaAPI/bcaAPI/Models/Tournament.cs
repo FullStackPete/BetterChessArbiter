@@ -1,9 +1,10 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace bcaAPI.Models
-{
+{    
     public enum TournamentStatus
     {
         Planned,
@@ -19,9 +20,9 @@ namespace bcaAPI.Models
     }
     [Collection("tournaments")]
     public class Tournament
-    {         
-        public ObjectId? UserId { get; set; }
-        public ObjectId Id { get; set; }
+    {
+        public Guid Id { get; set; } = new Guid();
+        public Guid UserId { get; set; }
         [Required(ErrorMessage ="Title is required")]
         public string Title { get; set; }        
         public string EventUrl { get; set; }        
@@ -34,7 +35,7 @@ namespace bcaAPI.Models
         public TournamentType Type {  get; set; }
         [Required(ErrorMessage = "Provide information whether the tournament is FIDE classified")]
         public Boolean IsFide {  get; set; }
-        [Required(ErrorMessage ="Provide details for tournament")]
+        [Required(ErrorMessage = "Provide details for tournament")]
         public TournamentDetails Details { get; set; }        
     }
     

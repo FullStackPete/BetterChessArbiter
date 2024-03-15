@@ -25,7 +25,7 @@ namespace bcaAPI.Models
             Organizer,
             Admin,
         }
-        public ObjectId Id { get; set; }
+        public Guid Id { get; set; } = new Guid();
         [MinLength(1,ErrorMessage ="Name must be at least 1 character long")]
         [Required(ErrorMessage ="You must provide first name")]
         public string Name { get; set; }

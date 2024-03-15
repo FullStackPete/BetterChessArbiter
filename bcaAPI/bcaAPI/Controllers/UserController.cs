@@ -3,8 +3,9 @@ using bcaAPI.Services;
 using bcaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace bcaAPI.Controllers
 {
@@ -31,10 +32,9 @@ namespace bcaAPI.Controllers
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public ActionResult<User> GetUser(string id)
-        {
-            var objectId = new MongoDB.Bson.ObjectId(id);
-            var user = _userService.GetUserById(objectId);
+        public ActionResult<User> GetUser(Guid id)
+        {            
+            var user = _userService.GetUserById(id);
 
             if (user == null)
             {
@@ -73,11 +73,10 @@ namespace bcaAPI.Controllers
 
         // PUT: api/User/5
         [HttpPut("{id}")]
-        public IActionResult PutUser(string id, User user)
-        {
-            var objectId = new MongoDB.Bson.ObjectId(id);
+        public IActionResult PutUser(Guid id, User user)
+        {            
 
-            if (!_userService.GetUserById(objectId).Equals(user))
+            if (!_userService.GetUserById(id).Equals(user))
             {
                 return BadRequest();
             }
@@ -96,10 +95,9 @@ namespace bcaAPI.Controllers
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(string id)
-        {
-            var objectId = new MongoDB.Bson.ObjectId(id);
-            var user = _userService.GetUserById(objectId);
+        public IActionResult DeleteUser(Guid id)
+        {            
+            var user = _userService.GetUserById(id);
 
             if (user == null)
             {
