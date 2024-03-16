@@ -10,3 +10,12 @@ database.txt
 /bcaAPI/.vs
 /bcaAPI/bcaAPI/appsettings.Development.json
 /bcaAPI/bcaAPI/appsettings.json
+/bcaAPI/bcaAPI/obj/Debug/net7.0/bcaAPI.AssemblyInfo.cs
+/bcaAPI/bcaAPI/obj/Debug/net7.0/bcaAPI.AssemblyInfoInputs.cache
+/bcaAPI/bcaAPI/obj/Debug/net7.0/bcaAPI.csproj.AssemblyReference.cache
+/bcaAPI/bcaAPI/obj/Debug/net7.0/bcaAPI.assets.cache
+/bcaAPI/bcaAPI/obj/Debug/net7.0/bcaAPI.GeneratedMSBuildEditorConfig.editorconfig
+/bcaAPI/bcaAPI/obj/bcaAPI.csproj.nuget.dgspec.json
+/bcaAPI/bcaAPI/obj/bcaAPI.csproj.nuget.g.props
+/bcaAPI/bcaAPI/obj/project.assets.json
+/bcaAPI/bcaAPI/obj/project.nuget.cache
