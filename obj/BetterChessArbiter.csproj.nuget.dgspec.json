@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PrivateProgramming\\BetterChessArbiter\\BetterChessArbiter.csproj": {}
+    "D:\\mojeprojekty\\betterchessarbiter\\BetterChessArbiter.csproj": {}
   },
   "projects": {
-    "D:\\PrivateProgramming\\BetterChessArbiter\\BetterChessArbiter.csproj": {
+    "D:\\mojeprojekty\\betterchessarbiter\\BetterChessArbiter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PrivateProgramming\\BetterChessArbiter\\BetterChessArbiter.csproj",
+        "projectUniqueName": "D:\\mojeprojekty\\betterchessarbiter\\BetterChessArbiter.csproj",
         "projectName": "BetterChessArbiter",
-        "projectPath": "D:\\PrivateProgramming\\BetterChessArbiter\\BetterChessArbiter.csproj",
-        "packagesPath": "C:\\Users\\Piotrek\\.nuget\\packages\\",
-        "outputPath": "D:\\PrivateProgramming\\BetterChessArbiter\\obj\\",
+        "projectPath": "D:\\mojeprojekty\\betterchessarbiter\\BetterChessArbiter.csproj",
+        "packagesPath": "C:\\Users\\tommi\\.nuget\\packages\\",
+        "outputPath": "D:\\mojeprojekty\\betterchessarbiter\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Piotrek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tommi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
