@@ -1,14 +1,13 @@
 ﻿using bcaAPI.Models;
 using bcaAPI.Services;
 using bcaAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
-using System.Collections.Generic;
-using System.Threading.Tasks; 
 
 namespace bcaAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -43,8 +42,8 @@ namespace bcaAPI.Controllers
 
             return Ok(user);
         }
-        [HttpPost("verifylogin")]
-        public ActionResult<User> VerifyUserLogin([FromBody] LoginVerificationBody data) {
+        [HttpPost("login")]
+        public ActionResult<User> Login([FromBody] LoginModel data) {
 
             User user = _userService.FindByEmail(data.Email);
             if (user == null) {

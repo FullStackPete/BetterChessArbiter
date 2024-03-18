@@ -19,3 +19,5 @@ database.txt
 /bcaAPI/bcaAPI/obj/bcaAPI.csproj.nuget.g.props
 /bcaAPI/bcaAPI/obj/project.assets.json
 /bcaAPI/bcaAPI/obj/project.nuget.cache
+/obj/Debug/net8.0
+/BetterChessArbiter.sln

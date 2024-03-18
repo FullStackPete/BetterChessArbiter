@@ -1,30 +1,14 @@
-﻿using bcaAPI.Services;
-using DnsClient.Internal;
-using MongoDB.Bson;
-using MongoDB.EntityFrameworkCore;
+﻿using MongoDB.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Drawing.Imaging;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Permissions;
-using System.Text;
 
 namespace bcaAPI.Models
 {
+    
     [Collection("users")]
     public class User
-    {               
-        public User()
-        {
-            UserRole = Role.CommonUser;
-        }
-        public enum Role
-        {
-            CommonUser,
-            Organizer,
-            Admin,
-        }
+    {
+        
         public Guid Id { get; set; } = new Guid();
         [MinLength(1,ErrorMessage ="Name must be at least 1 character long")]
         [Required(ErrorMessage ="You must provide first name")]
@@ -49,9 +33,6 @@ namespace bcaAPI.Models
         public string Sex { get; set; }
 
         [DefaultValue(false)]
-        public Boolean EmailConfirmed { get; set; }
-        
-        [Required(ErrorMessage = "User must have a role")]                
-        public Role UserRole { get; set; } 
+        public Boolean EmailConfirmed { get; set; }                        
     }
 }

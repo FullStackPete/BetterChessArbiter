@@ -65,7 +65,7 @@ namespace bcaAPI.Services
             return _BCAContextDb.Tournaments.OrderBy(tournament=>tournament.Id).AsNoTracking().AsEnumerable();
         }
 
-        public Tournament? GetTournamentById(Guid id)
+        public Tournament GetTournamentById(Guid id)
         {
             return _BCAContextDb.Tournaments.FirstOrDefault(tournament => tournament.Id == id);
         }
