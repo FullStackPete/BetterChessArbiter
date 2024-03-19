@@ -30,9 +30,11 @@ namespace bcaAPI.Models
         
         public string Salt {  get; set; }
         [Required(ErrorMessage ="Please provide gender")]
-        public string Sex { get; set; }
+        public string Sex { get; set; }        
 
         [DefaultValue(false)]
-        public Boolean EmailConfirmed { get; set; }                        
+        public Boolean EmailConfirmed { get; set; }
+        [DefaultValue(UserRoles.User)]
+        public string Role { get; set; } = UserRoles.User;
     }
 }

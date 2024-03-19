@@ -1,4 +1,4 @@
-﻿using bcaAPI.Models;
+﻿using bcaAPI.Models.Tournament;
 using MongoDB.Bson;
 
 namespace bcaAPI.Services.Interfaces

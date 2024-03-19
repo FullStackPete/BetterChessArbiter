@@ -1,4 +1,4 @@
-﻿using bcaAPI.Models;
+﻿using bcaAPI.Models.Tournament;
 using bcaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +7,7 @@ using MongoDB.Bson;
 namespace bcaAPI.Controllers
 
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class TournamentController : ControllerBase

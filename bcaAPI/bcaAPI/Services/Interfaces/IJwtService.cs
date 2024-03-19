@@ -1,7 +1,9 @@
-﻿namespace bcaAPI.Services.Interfaces
+﻿using System.Security.Claims;
+
+namespace bcaAPI.Services.Interfaces
 {
     public interface IJwtService
     {
-        string GenerateToken();
+        string GenerateToken(IList<Claim> claims, int expires);
     }
 }

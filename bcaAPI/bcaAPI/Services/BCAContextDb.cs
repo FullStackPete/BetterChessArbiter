@@ -1,4 +1,5 @@
 ﻿using bcaAPI.Models;
+using bcaAPI.Models.Tournament;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.EntityFrameworkCore.Extensions;

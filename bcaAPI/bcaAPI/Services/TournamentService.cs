@@ -1,5 +1,5 @@
 ﻿using bcaAPI.DBContext;
-using bcaAPI.Models;
+using bcaAPI.Models.Tournament;
 using bcaAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
