@@ -1,5 +1,6 @@
 import puppeteer, { Browser } from "puppeteer";
 import * as fs from "fs";
+import { v4 as uuidv4 } from "uuid";
 import path from "path";
 import { ScrapeFrontPage } from "./ScrapeFrontPage.js";
 import { ScrapeLinks } from "./ScrapeLinks.js";
@@ -8,11 +9,17 @@ const url = "https://www.chessarbiter.com/";
 import { TournamentsType, DetailsType, FixedDetailsType } from "./types.js";
 
 const main = async () => {
+
+  const numOfTournamentsToScrape = 50;
+
+  const currentPath = path.resolve(".");
   const combinedData: TournamentsType[] = [];
   const browser = await puppeteer.launch({ headless: false });
-  const mainData = await ScrapeFrontPage(url, browser);
+  let mainData = await ScrapeFrontPage(url, browser);
+
   const linksArray = await ScrapeLinks(url, browser);
   const subData: void | (DetailsType | undefined)[] = await ScrapeEventPage(
+    numOfTournamentsToScrape,
     linksArray,
     browser
   );
@@ -20,36 +27,41 @@ const main = async () => {
   // Iterujemy po głównej danych
   const fixedDateSubData: FixedDetailsType[] = subData.map(
     (subItem: DetailsType) => {
-      const newStartDate = new Date(subItem.startDate);
-      const newEndDate = new Date(subItem.endDate);
+      const newStartDate = new Date(subItem.StartDate);
+      const newEndDate = new Date(subItem.EndDate);
       return { ...subItem, startDate: newStartDate, endDate: newEndDate };
     }
   );
-
+  console.log("fixeddate:", fixedDateSubData);
+  mainData = mainData.slice(0, numOfTournamentsToScrape);
   mainData.forEach((mainItem) => {
+    let _id = uuidv4();
     const correspondingSubItem = fixedDateSubData.find(
-      (subItem: FixedDetailsType) => subItem.title === mainItem!.title
+      (subItem: FixedDetailsType) => subItem.Title === mainItem!.Title
     );
     if (correspondingSubItem) {
       const combinedItem = {
+        _id,
         ...mainItem,
-        details: correspondingSubItem,
+        Details: correspondingSubItem,
       };
       combinedData.push(combinedItem as TournamentsType);
-    }
+    } else combinedData.push({ _id, ...mainItem });
   });
+
+  console.log("combinedData:", combinedData);
 
   const finalData = combinedData.map((item) => {
     const newItem = { ...item };
-    if (newItem.details) {
-      delete newItem.details.title;
+    if (newItem.Details) {
+      delete newItem.Details.Title;
     }
     return newItem;
   });
+  console.log("finalData:", finalData);
 
-  const currentPath = path.resolve(".");
   fs.writeFile(
-    currentPath + "/database.txt",
+    currentPath + "/database.json",
     JSON.stringify(finalData),
     (err) => {
       if (err) {

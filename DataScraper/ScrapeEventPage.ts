@@ -2,18 +2,20 @@ import { Browser } from "puppeteer";
 import { DetailsType, UrlType } from "./types.js";
 
 type ScrapeEventpageFunctionType = (
+  arg0: number,
   arg1: UrlType[],
   arg2: Browser
 ) => Promise<DetailsType[]>;
 
 export const ScrapeEventPage: ScrapeEventpageFunctionType = async (
+  numOfTournamentsToScrape: number,
   urls: UrlType[],
   browser: Browser
-):Promise<DetailsType[]> => {  
+): Promise<DetailsType[]> => {
   const commonData = [];
   const page = await browser.newPage();
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < numOfTournamentsToScrape; i++) {
     await page.goto(urls[i].aTag);
 
     const dataScrape = await page.evaluate(() => {
@@ -40,20 +42,20 @@ export const ScrapeEventPage: ScrapeEventpageFunctionType = async (
                 );
 
                 const subData: DetailsType = {
-                  title: commonInfo[0].querySelectorAll("td")[1].innerText,
-                  startDate: startDate,
-                  endDate: endDate,
-                  place: commonInfo[3].querySelectorAll("td")[1].innerText,
-                  gameTempo: commonInfo[4].querySelectorAll("td")[1].innerText,
-                  referee: commonInfo[5].querySelectorAll("td")[1].innerText,
-                  organizer: commonInfo[6].querySelectorAll("td")[1].innerText,
-                  roundsTotal: Number(
+                  Title: commonInfo[0].querySelectorAll("td")[1].innerText,
+                  StartDate: startDate,
+                  EndDate: endDate,
+                  Place: commonInfo[3].querySelectorAll("td")[1].innerText,
+                  GameTempo: commonInfo[4].querySelectorAll("td")[1].innerText,
+                  Referee: commonInfo[5].querySelectorAll("td")[1].innerText,
+                  Organizer: commonInfo[6].querySelectorAll("td")[1].innerText,
+                  RoundsTotal: Number(
                     commonInfo[8].querySelectorAll("td")[1].innerText
                   ),
-                  roundsEnded: Number(
+                  RoundsEnded: Number(
                     commonInfo[7].querySelectorAll("td")[1].innerText
                   ),
-                  system: commonInfo[9].querySelectorAll("td")[1].innerText,
+                  GameSystem: commonInfo[9].querySelectorAll("td")[1].innerText,
                 };
                 // console.log(subData);
                 return subData;
@@ -64,7 +66,9 @@ export const ScrapeEventPage: ScrapeEventpageFunctionType = async (
     // console.log(dataScrape);
     commonData.push(dataScrape);
   }
-  const flatCommonData = commonData.flat().filter((item):item is DetailsType=>item!==undefined);
-  
+  const flatCommonData = commonData
+    .flat()
+    .filter((item): item is DetailsType => item !== undefined);
+
   return flatCommonData;
 };

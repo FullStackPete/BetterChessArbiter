@@ -1,37 +1,38 @@
 export type TournamentsType = {
-  title: string;
-  eventUrl: string;
-  county: string;
-  status: string;
-  tournamentType: string;
-  isFide: boolean;
-  details: FixedDetailsType;
+  _id: string;
+  Title: string;
+  EventUrl: string;
+  County: string;
+  Status: string;
+  Type: string;
+  IsFide: boolean;
+  Details: FixedDetailsType;
 };
 export type UrlType = {
   aTag: string;
 };
 
 export type DetailsType = {
-  title: string;
-  startDate: number;
-  endDate: number;
-  place: string;
-  gameTempo: string;
-  referee: string;
-  organizer: string;
-  roundsTotal: number;
-  roundsEnded: number;
-  system: string;
+  Title: string;
+  StartDate: number;
+  EndDate: number;
+  Place: string;
+  GameTempo: string;
+  Referee: string;
+  Organizer: string;
+  RoundsTotal: number;
+  RoundsEnded: number;
+  GameSystem: string;
 };
-export type FixedDetailsType ={
-  title?: string;
-  startDate: Date;
-  endDate: Date;
-  place: string;
-  gameTempo: string;
-  referee: string;
-  organizer: string;
-  roundsTotal: number;
-  roundsEnded: number;
-  system: string;
-}
+export type FixedDetailsType = {
+  Title?: string;
+  StartDate: number;
+  EndDate: number;
+  Place: string;
+  GameTempo: string;
+  Referee: string;
+  Organizer: string;
+  RoundsTotal: number;
+  RoundsEnded: number;
+  GameSystem: string;
+};

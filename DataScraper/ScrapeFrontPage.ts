@@ -1,5 +1,4 @@
 import { Browser } from "puppeteer";
-
 export const ScrapeFrontPage = async (url: string, browser: Browser) => {
   const page = await browser.newPage();
   await page.goto(url);
@@ -16,33 +15,28 @@ export const ScrapeFrontPage = async (url: string, browser: Browser) => {
               ".szary"
             ) as NodeListOf<HTMLDivElement>;
             const aTag = tr.querySelector("a");
-            const title = aTag!.innerText;
-            const eventUrl = aTag!.href;
+            const Title = aTag!.innerText;
+            const EventUrl = aTag!.href;
             if (szary.length > 0) {
-              const status = szary[0].innerText;
-              const county = szary[1].innerText;
-              let tournamentType = szary[2].innerText.replace("FIDE", "");
+              const Status = szary[0].innerText;
+              const County = szary[1].innerText;
+              let TournamentType = szary[2].innerText.replace("FIDE", "");
               const isFIDE = szary[2].querySelector("sup")?.innerText;
-              if (isFIDE !== "FIDE")
-                return {
-                  title,
-                  eventUrl,
-                  county,
-                  status,
-                  tournamentType,
-                  isFide: false,
-                };
-              return {
-                title,
-                eventUrl,
-                county,
-                status,
-                tournamentType,
-                isFide: true,
+              const frontPageTournament = {
+                Title,
+                EventUrl,
+                County,
+                Status,
+                TournamentType,
+                IsFide: false,
               };
-             }
+              if (isFIDE !== "FIDE") {
+                frontPageTournament.IsFide = false;
+              } else frontPageTournament.IsFide = true;
+              return frontPageTournament;
+            }
           });
       });
-  });  
+  });
   return dataScrape;
 };
