@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <UserSecretsId>8bea3cb3-b31e-48ab-9d50-03890a3204ab</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

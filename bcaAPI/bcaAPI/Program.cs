@@ -24,7 +24,7 @@ builder.Services.AddAuthentication(opt =>
         ValidAudience = config["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"]!)),
         ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
     };
@@ -70,7 +70,7 @@ app.UseCors(options => options
     .AllowAnyOrigin() // Mo¿esz równie¿ ustawiæ AllowSpecificOrigins i podaæ konkretne adresy URL frontendu
     .AllowAnyMethod()
     .AllowAnyHeader()
-);
+); 
 
 app.UseAuthentication();
 app.UseAuthorization();
