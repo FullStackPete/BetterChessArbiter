@@ -1,5 +1,4 @@
 export type TournamentsType = {
-  _id: string;
   Title: string;
   EventUrl: string;
   County: string;
@@ -8,6 +7,14 @@ export type TournamentsType = {
   IsFide: boolean;
   Details: FixedDetailsType;
 };
+export type noDetailsTournamentsType = {
+  Title: string;
+  EventUrl: string;
+  County: string;
+  Status: string;
+  Type: string;
+  IsFide: boolean;
+}
 export type UrlType = {
   aTag: string;
 };
@@ -26,8 +33,8 @@ export type DetailsType = {
 };
 export type FixedDetailsType = {
   Title?: string;
-  StartDate: number;
-  EndDate: number;
+  StartDate: Date;
+  EndDate: Date;
   Place: string;
   GameTempo: string;
   Referee: string;

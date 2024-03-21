@@ -18,16 +18,28 @@ export const ScrapeFrontPage = async (url: string, browser: Browser) => {
             const Title = aTag!.innerText;
             const EventUrl = aTag!.href;
             if (szary.length > 0) {
-              const Status = szary[0].innerText;
+              let Status = szary[0].innerText;
+              switch (Status) {
+                case "trwający":
+                  Status = "Ongoing";
+                  break;
+                case "planowany":
+                  Status = "Planned";
+                default:
+                  "No information";
+                  break;
+              }
               const County = szary[1].innerText;
-              let TournamentType = szary[2].innerText.replace("FIDE", "");
+              let Type = szary[2].innerText.replace("FIDE", "");
               const isFIDE = szary[2].querySelector("sup")?.innerText;
-              const frontPageTournament = {
+              const frontPageTournament = {                
+                UserId: null,
                 Title,
                 EventUrl,
                 County,
                 Status,
-                TournamentType,
+                Type,
+                isVerified: true,
                 IsFide: false,
               };
               if (isFIDE !== "FIDE") {
