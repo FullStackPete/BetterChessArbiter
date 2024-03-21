@@ -15,7 +15,8 @@ namespace bcaAPI.Services
         }
 
         public void AddTournament(Tournament newTournament)
-        {                        
+        {
+            newTournament.IsVerified = false;
             _BCAContextDb.Tournaments.Add(newTournament);
             _BCAContextDb.ChangeTracker.DetectChanges();
             Console.WriteLine(_BCAContextDb.ChangeTracker.DebugView.LongView);

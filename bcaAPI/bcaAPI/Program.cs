@@ -9,6 +9,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 var config = builder.Configuration;
 builder.Services.AddAuthentication(opt =>
@@ -23,7 +24,7 @@ builder.Services.AddAuthentication(opt =>
         ValidIssuer = config["JwtSettings:Issuer"],
         ValidAudience = config["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"]!)),
-        ValidateIssuer = true,
+        ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
@@ -67,7 +68,7 @@ app.UseRouting();
 
 // Enable CORS
 app.UseCors(options => options
-    .AllowAnyOrigin() // Mo¿esz równie¿ ustawiæ AllowSpecificOrigins i podaæ konkretne adresy URL frontendu
+    .AllowAnyOrigin() // Moï¿½esz rï¿½wnieï¿½ ustawiï¿½ AllowSpecificOrigins i podaï¿½ konkretne adresy URL frontendu
     .AllowAnyMethod()
     .AllowAnyHeader()
 ); 

@@ -4,10 +4,11 @@ using bcaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace bcaAPI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -21,6 +22,7 @@ namespace bcaAPI.Controllers
             _PasswordService = passwordService;
         }
 
+        [Authorize(Roles ="Admin")]
         // GET: api/User
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
@@ -28,7 +30,7 @@ namespace bcaAPI.Controllers
             var users = _userService.GetAllUsers();
             return Ok(users);
         }
-
+        
         // GET: api/User/5
         [HttpGet("{id}")]
         public ActionResult<User> GetUser(Guid id)
@@ -39,27 +41,15 @@ namespace bcaAPI.Controllers
             {
                 return NotFound();
             }
-
+            var requestingUserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (requestingUserId != user.Id.ToString())
+            {                
+                return Forbid();
+            }
             return Ok(user);
         }
-        [HttpPost("login")]
-        public ActionResult<User> Login([FromBody] LoginModel data) {
 
-            User user = _userService.FindByEmail(data.Email);
-            if (user == null) {
-                return NotFound(data.Email);
-            }
-            var saltedP = user.Salt + data.Password;
-            var hashedSaltedP = _PasswordService.HashPassword(saltedP);
-
-            if(user.Email== data.Email && user.Password == hashedSaltedP)
-            {
-                return Ok(user);
-            } else
-            {
-                return BadRequest("Verification failed!");
-            }                                                
-        }
+        [Authorize(Roles ="Admin")]
         // POST: api/User
         [HttpPost]
         public ActionResult<User> PostUser(User user)
@@ -70,10 +60,18 @@ namespace bcaAPI.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
+
+        [Authorize(Roles="User, Organizer, Moderator, Admin")]
         // PUT: api/User/5
         [HttpPut("{id}")]
         public IActionResult PutUser(Guid id, User user)
-        {            
+        {
+
+            var requestingUserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (requestingUserId != user.Id.ToString())
+            {
+                return Forbid();
+            }            
 
             if (!_userService.GetUserById(id).Equals(user))
             {
@@ -92,6 +90,7 @@ namespace bcaAPI.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles ="Admin")]
         // DELETE: api/User/5
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(Guid id)

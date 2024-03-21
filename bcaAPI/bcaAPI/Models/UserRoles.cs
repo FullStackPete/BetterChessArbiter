@@ -5,6 +5,6 @@
         public const string Admin = "Admin";
         public const string Organizer = "Organizer";
         public const string User = "User";
-        public const string Mod = "Mod";
+        public const string Moderator = "Moderator";
     }
 }
