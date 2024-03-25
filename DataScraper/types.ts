@@ -1,5 +1,5 @@
 export type TournamentsType = {
-  Title: string;
+  Title?: string;
   EventUrl: string;
   County: string;
   Status: string;
@@ -7,14 +7,6 @@ export type TournamentsType = {
   IsFide: boolean;
   Details: FixedDetailsType;
 };
-export type noDetailsTournamentsType = {
-  Title: string;
-  EventUrl: string;
-  County: string;
-  Status: string;
-  Type: string;
-  IsFide: boolean;
-}
 export type UrlType = {
   aTag: string;
 };
@@ -30,6 +22,7 @@ export type DetailsType = {
   RoundsTotal: number;
   RoundsEnded: number;
   GameSystem: string;
+  numOfContestants?: string;
 };
 export type FixedDetailsType = {
   Title?: string;
@@ -42,4 +35,10 @@ export type FixedDetailsType = {
   RoundsTotal: number;
   RoundsEnded: number;
   GameSystem: string;
+  numOfTeams: number;
+  numOfPlayers: number;
+  numOfFederations: number;
+  contestantsWithFIDE: number;
+  numOfWomen: number;
+  averageRanking: number;
 };

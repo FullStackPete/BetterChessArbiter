@@ -6,12 +6,12 @@ import { ScrapeFrontPage } from "./ScrapeFrontPage.js";
 import { ScrapeLinks } from "./ScrapeLinks.js";
 import { ScrapeEventPage } from "./ScrapeEventPage.js";
 const url = "https://www.chessarbiter.com/";
-import { TournamentsType, DetailsType, FixedDetailsType, noDetailsTournamentsType } from "./types.js";
+import { TournamentsType, DetailsType, FixedDetailsType } from "./types.js";
 import axios from "axios";
 
 const main = async () => {
   const currentPath = path.resolve(".");
-  const combinedData: (TournamentsType|noDetailsTournamentsType)[] = [];
+  const combinedData: (TournamentsType | noDetailsTournamentsType)[] = [];
   const browser = await puppeteer.launch({ headless: false });
   let mainData = await ScrapeFrontPage(url, browser);
 
@@ -23,7 +23,9 @@ const main = async () => {
     browser
   );
 
-  const subDataFiltered = subData.filter((item):item is DetailsType => item !== undefined);
+  const subDataFiltered = subData.filter(
+    (item): item is DetailsType => item !== undefined
+  );
   // Iterujemy po głównej danych
   const fixedDateSubData: FixedDetailsType[] = subDataFiltered.map(
     (subItem: DetailsType) => {
@@ -43,12 +45,32 @@ const main = async () => {
         Details: correspondingSubItem,
       };
       combinedData.push(combinedItem as TournamentsType);
-    } else combinedData.push({...mainItem as noDetailsTournamentsType});
+    } else
+      combinedData.push({
+        ...mainItem,
+        Details: {
+          StartDate: new Date(),
+          EndDate: new Date(),
+          Place: "Missing information",
+          GameTempo: "Missing information",
+          Referee: "Missing information",
+          Organizer: "Missing information",
+          RoundsTotal: 0,
+          RoundsEnded: 0,
+          GameSystem: "Missing information",
+          numOfTeams: 0,
+          numOfPlayers: 0,
+          numOfFederations: 0,
+          contestantsWithFIDE: 0,
+          numOfWomen: 0,
+          averageRanking: 0,
+        },
+      });
   });
 
   const finalData = combinedData.map((item) => {
-    const newItem: TournamentsType|noDetailsTournamentsType = { ...item };
-    if ('Details' in newItem && newItem.Details) {
+    const newItem: TournamentsType | noDetailsTournamentsType = { ...item };
+    if ("Details" in newItem && newItem.Details) {
       delete newItem.Details.Title;
     }
     axios

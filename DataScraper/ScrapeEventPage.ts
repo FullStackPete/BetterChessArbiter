@@ -24,11 +24,18 @@ export const ScrapeEventPage: ScrapeEventpageFunctionType = async (
       return Array.from(tables)
         .filter((table) =>
           table.innerText.includes(
-            "Informacje podstawowe" || "Main information"
+            "Informacje podstawowe" ||
+              "Main information" ||
+              "Statystyka turniejowa"
           )
         )
         .flatMap((table) => {
-          if (table.innerText.includes("Informacje podstawowe")) {
+          let subData: DetailsType;
+          if (
+            table.innerText.includes(
+              "Informacje podstawowe" || "Main Information"
+            )
+          ) {
             const commonInfoTable = table.querySelectorAll("table");
             return Array.from(commonInfoTable)
               .slice(1)
@@ -41,7 +48,7 @@ export const ScrapeEventPage: ScrapeEventpageFunctionType = async (
                   commonInfo[2].querySelectorAll("td")[1].innerText
                 );
 
-                const subData: DetailsType = {
+                subData = {
                   Title: commonInfo[0].querySelectorAll("td")[1].innerText,
                   StartDate: startDate,
                   EndDate: endDate,
@@ -58,6 +65,54 @@ export const ScrapeEventPage: ScrapeEventpageFunctionType = async (
                   GameSystem: commonInfo[9].querySelectorAll("td")[1].innerText,
                 };
                 // console.log(subData);
+                const tournamentStatisticsTables =
+                  document.querySelectorAll(".panel-table");
+
+                Array.from(tournamentStatisticsTables).forEach((panelTable) => {
+                  const panelTableText = panelTable.innerText;
+                  if (panelTableText.includes("Statystyka turniejowa")) {
+                    const tablesInsidePanel =
+                      panelTable.querySelectorAll("table");
+                    Array.from(tablesInsidePanel).forEach((table) => {
+                      const trElements = table.querySelectorAll("tr");
+                      trElements.forEach((tr) => {
+                        const tdElements = tr.querySelectorAll("td");
+                        let key = tdElements[0].innerText;
+                        let value = Number(tdElements[1].innerText);
+                        if (value == 0) {
+                          value = -1;
+                        }
+                        if (key && value) {
+                          switch (key) {
+                            case "Liczba drużyn:":
+                              key = "NumOfTeams";
+                              break;
+                            case "Liczba zawodników:":
+                              key = "NumOfPlayers";
+                              break;
+                            case "Liczba federacji:":
+                              key = "NumOfFederations";
+                              break;
+                            case "Liczba zawodników z rankingiem FIDE:":
+                              key = "ContestantsWithFIDE";
+                              break;
+                            case "Liczba kobiet:":
+                              key = "NumOfWomen";
+                              break;
+                            case "Średni ranking turnieju:":
+                              key = "AverageRanking";
+                              break;
+                            default:
+                              null;
+                              break;
+                          }
+
+                          subData[key] = value;
+                        }
+                      });
+                    });
+                  }
+                });
                 return subData;
               });
           }

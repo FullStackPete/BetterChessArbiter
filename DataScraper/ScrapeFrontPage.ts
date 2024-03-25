@@ -32,8 +32,7 @@ export const ScrapeFrontPage = async (url: string, browser: Browser) => {
               const County = szary[1].innerText;
               let Type = szary[2].innerText.replace("FIDE", "");
               const isFIDE = szary[2].querySelector("sup")?.innerText;
-              const frontPageTournament = {                
-                UserId: null,
+              const frontPageTournament = {                                
                 Title,
                 EventUrl,
                 County,
