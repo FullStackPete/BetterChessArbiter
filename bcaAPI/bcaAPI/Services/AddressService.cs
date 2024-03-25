@@ -52,11 +52,11 @@ namespace bcaAPI.Services
             }
         }
 
-        public Address GetAddressById(ObjectId id)
+        public Address GetAddressById(Guid id)
         {
             return _BCAContextDb.Addresses.FirstOrDefault(a => a.Id == id);
         }
-        public IEnumerable<Address> GetAddressesByUserId(ObjectId id)
+        public IEnumerable<Address> GetAddressesByUserId(Guid id)
         {
             return _BCAContextDb.Addresses.OrderBy(a => a.UserId == id);
         }

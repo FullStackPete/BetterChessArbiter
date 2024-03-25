@@ -28,16 +28,15 @@ namespace bcaAPI.Controllers
         }
         [Authorize]
         [HttpGet("{id}")]
-        public ActionResult<Address> GetAddress(string id)
+        public ActionResult<Address> GetAddressById(Guid id)
         {
             var addressOfUser = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (addressOfUser != id )
+            if (addressOfUser != id.ToString() )
             {
                 return Forbid();
             }
 
-            var objectId = new MongoDB.Bson.ObjectId(id);
-            var address = _addressService.GetAddressById(objectId);
+            var address = _addressService.GetAddressById(id);
             if (address != null) {
                 return Ok(address);
                 }
@@ -57,14 +56,13 @@ namespace bcaAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateAddress(string id,Address newAddress) {
+        public ActionResult UpdateAddress(Guid id,Address newAddress) {
             var addressOfUser = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (addressOfUser != newAddress.UserId.ToString())
             {
                 return Forbid();
             }
-            var idToUpdate = new MongoDB.Bson.ObjectId(id);
-            if(!_addressService.GetAddressById(idToUpdate).Equals(newAddress))
+            if(!_addressService.GetAddressById(id).Equals(newAddress))
             {
                 return BadRequest("Ids don't match!");
             }
@@ -78,15 +76,14 @@ namespace bcaAPI.Controllers
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public ActionResult DeleteAddress(string id)
+        public ActionResult DeleteAddress(Guid id)
         {
             var addressOfUser = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (addressOfUser != id)
+            if (addressOfUser != id.ToString())
             {
                 return Forbid();
             }
-            var objectId = new MongoDB.Bson.ObjectId(id);
-            var address = _addressService.GetAddressById(objectId);
+            var address = _addressService.GetAddressById(id);
             try
             {
                 _addressService.DeleteAddress(address);

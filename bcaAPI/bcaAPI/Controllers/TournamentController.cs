@@ -19,7 +19,13 @@ namespace bcaAPI.Controllers
         {
             _tournamentService = tournamentService;
             _userService = userService;
-        }        
+        }
+        
+        [HttpGet("mostpopulartournaments")]
+        public ActionResult <IEnumerable<Tournament>> Get10MostPopular() {
+            var mostPopularTournaments = _tournamentService.GetAllTournaments().OrderByDescending(t=>t.Details.NumOfPlayers).Take(10);
+            return Ok(mostPopularTournaments);
+        }
         [HttpGet]
         public ActionResult<IEnumerable<Tournament>> GetTournaments()
         {

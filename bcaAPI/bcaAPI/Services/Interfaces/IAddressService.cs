@@ -6,7 +6,7 @@ namespace bcaAPI.Services.Interfaces
     public interface IAddressService
     {
         IEnumerable<Address> GetAllAddresses();
-        Address GetAddressById(ObjectId id);
+        Address GetAddressById(Guid id);
 
         void AddAddress(Address address);
         void DeleteAddress(Address address);

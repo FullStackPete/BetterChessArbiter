@@ -8,9 +8,9 @@ namespace bcaAPI.Models
     public class Address
     {
         [Required(ErrorMessage ="Address must have Id")]
-        public ObjectId Id { get; set; }
+        public Guid Id { get; set; }
         [Required(ErrorMessage ="Address must have an assigned user!")]
-        public ObjectId UserId { get; set; }
+        public Guid UserId { get; set; }
         [Required(ErrorMessage ="Country is required")]
         public string Country { get; set; }
         [Required(ErrorMessage ="City is required")]
