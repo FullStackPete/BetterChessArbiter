@@ -47,7 +47,7 @@ namespace bcaAPI.Controllers
             if (tournament == null) { return NotFound(); }
             return Ok(tournament);
         }
-        //[Authorize(Roles ="Organizer,Admin,Moderator")]
+        [Authorize(Roles ="Organizer,Admin,Moderator")]
         [HttpPost]
         public ActionResult<Tournament> PostTournament(Tournament tournament)
         {                        

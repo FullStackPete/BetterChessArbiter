@@ -1,5 +1,17 @@
+import { useEffect } from "react";
+import useAuth from "../hooks/useAuth";
+
 function AdminPanelPage() {
-    return ( <h1>Not implemented yet</h1> );
+  const { auth } = useAuth();
+  useEffect(() => {
+    console.log(auth);
+  }, []);
+  return (
+    <div className="text-4xl mt-20">
+      <button>Press Me!</button>
+      Not Implemented yet!
+    </div>
+  );
 }
 
 export default AdminPanelPage;

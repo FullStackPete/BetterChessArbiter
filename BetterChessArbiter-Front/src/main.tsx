@@ -14,6 +14,11 @@ import TournamentPage from "./pages/TournamentPage";
 import UserPage from "./pages/UserPage";
 import Navbar from "./components/Navbar";
 import ErrorPage from "./pages/ErrorPage";
+import { AuthProvider } from "./context/AuthProvider";
+import RequireAuth from "./helpers/RequireAuth";
+import { roles } from "./constants";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
+import { Admin } from "mongodb";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +34,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/adminpanel",
-    element: <AdminPanelPage />,
+    element: (
+      <RequireAuth requiredRole={roles.admin}>
+        <AdminPanelPage />
+      </RequireAuth>
+    ),
   },
   {
     path: "/favouritetournaments",
@@ -51,13 +60,16 @@ const router = createBrowserRouter([
     path: "/user/:id",
     element: <UserPage />,
   },
-  { element: <ErrorPage /> },
+  { path: "*", element: <ErrorPage /> },
+  { path: "/unauthorized", element: <UnauthorizedPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Navbar />
-    <RouterProvider router={router} />
-    <Footer />
+    <AuthProvider>
+      <Navbar />
+      <RouterProvider router={router} />
+      <Footer />
+    </AuthProvider>
   </React.StrictMode>
 );

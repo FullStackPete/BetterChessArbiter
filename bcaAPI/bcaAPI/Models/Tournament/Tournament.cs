@@ -12,20 +12,20 @@ namespace bcaAPI.Models.Tournament
     {        
         public Guid Id { get; set; } = new Guid();
         public Guid? UserId { get; set; }
-        //[Required(ErrorMessage = "Title is required")]
+        [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
         public string EventUrl { get; set; }
         public string County { get; set; }
-        //[Required(ErrorMessage = "Status is required")]
+        [Required(ErrorMessage = "Status is required")]
         public string Status { get; set; }
 
 
-        //[Required(ErrorMessage = "Provide type of tournament")]
+        [Required(ErrorMessage = "Provide type of tournament")]
         public string Type { get; set; }
         public bool IsVerified { get; set; }
-       // [Required(ErrorMessage = "Provide information whether the tournament is FIDE classified")]
+       [Required(ErrorMessage = "Provide information whether the tournament is FIDE classified")]
         public bool IsFide { get; set; }
-        //[Required(ErrorMessage = "Provide details for tournament")]
+        [Required(ErrorMessage = "Provide details for tournament")]
         public TournamentDetails? Details { get; set; }
     }
     public enum Type{

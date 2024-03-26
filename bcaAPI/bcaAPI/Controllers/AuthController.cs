@@ -37,7 +37,7 @@ namespace bcaAPI.Controllers
             string role = GetRoleForUser(user); // Pobierz rolę użytkownika
 
             var token = GenerateJwtToken(user, role);
-            return Ok(new { token });
+            return Ok(new { token,role });
         }
         [HttpPost("register")]
         public IActionResult Register(User user)

@@ -25,7 +25,7 @@ builder.Services.AddAuthentication(opt =>
         ValidAudience = config["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"]!)),
         ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
     };
@@ -68,10 +68,11 @@ app.UseRouting();
 
 // Enable CORS
 app.UseCors(options => options
-    .AllowAnyOrigin() // Mo�esz r�wnie� ustawi� AllowSpecificOrigins i poda� konkretne adresy URL frontendu
+    .WithOrigins("http://localhost:5173") // Allow requests from this origin
     .AllowAnyMethod()
     .AllowAnyHeader()
-); 
+    .AllowCredentials() // Allow credentials (cookies, authorization headers, etc.)
+);
 
 app.UseAuthentication();
 app.UseAuthorization();

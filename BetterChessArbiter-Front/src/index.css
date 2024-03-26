@@ -24,3 +24,7 @@ section {
   width: calc(119% + 1.3px);
   height: 106px;
 }
+
+.transition-transform{
+  transition-duration:450ms;
+}
