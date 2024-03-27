@@ -99,15 +99,11 @@ function RegisterPage() {
           <label htmlFor="sex" className="block text-gray-700">
             Sex
           </label>
-          <input
-            type="text"
-            id="sex"
-            name="sex"
-            value={formData.sex}
-            onChange={(e: ChangeEvent) => handleChange(e)}
-            className="form-input mt-1 block w-full"
-            required
-          />
+          <select name="sex" id="sex" value={formData.sex} onChange={(e)=>handleChange(e)}required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>        
         </div>
         <div className="mb-4">
           <button
