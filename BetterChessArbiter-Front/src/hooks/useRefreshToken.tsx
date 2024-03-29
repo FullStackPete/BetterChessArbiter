@@ -8,9 +8,9 @@ function useRefreshToken() {
   const refresh = async () => {
     const response = await axios.get("/Auth/refresh", {
       withCredentials: true,
-      headers:{
-        Authorization:`Bearer ${auth.token}`
-      }
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+      },
     });
     console.log(response);
     const newAccessToken = response.data.token;

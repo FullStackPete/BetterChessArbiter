@@ -11,46 +11,38 @@ function HomePage() {
     <>
       <section className="h-fit mt-12 bg-[#D0B8AC] pb-24">
         <p className="font-semibold text-2xl">Welcome to BetterChessArbiter</p>
-        {auth.role && (
+        <p className="text-xl mt-4">
+          Browse the most popular tournaments as well as your favourites in a
+          matter of secconds!
+        </p>
+        <>
           <p className="text-xl mt-4">
-            Browse the most popular tournaments as well as your favourites in a
-            matter of secconds!
+            A place where you can organize new tournaments, manage your
+            favourites and search for those which suit you the best!
           </p>
-        )}
-        {!auth.role && (
-          <>
-            <p className="text-xl mt-4">
-              A place where you can organize new tournaments, manage your
-              favourites and search for those which suit you the best!
-            </p>
-            <p className="text-xl my-4">
-              Sign up to get access to all of our great features. It's{" "}
-              <em>free</em> and it's simply worth it.
-            </p>
-          </>
-        )}
+          <p className="text-xl my-4">
+            Sign up to get access to all of our great features. It's{" "}
+            <em>free</em> and it's simply worth it.
+          </p>
+        </>
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-col">
             <p className="font-medium text-2xl mb-4 text-center">
-              {auth.role && <em>Browse now!</em>}
-              {!auth.role && <em>Try now!</em>}
-            </p>            
-            {!auth.role && (
-              <>
-                <button
-                  onClick={() => navigate("/register")}
-                  className="rounded-lg px-4 py-2 text-xl font-semibold bg-white border-2 border-[#F3D8C7]"
-                >
-                  Sign up
-                </button>
-                <button
-                  onClick={() => navigate("/login")}
-                  className="text-xl font-semibold p-2"
-                >
-                  or <u>Log in</u>
-                </button>
-              </>
-            )}
+              <em>Try now!</em>
+            </p>
+
+            <button
+              onClick={() => navigate("/register")}
+              className="rounded-lg px-4 py-2 text-xl font-semibold bg-white border-2 border-[#F3D8C7]"
+            >
+              Sign up
+            </button>
+            <button
+              onClick={() => navigate("/login")}
+              className="text-xl font-semibold p-2"
+            >
+              or <u>Log in</u>
+            </button>
           </div>
           <img
             className="h-48"
