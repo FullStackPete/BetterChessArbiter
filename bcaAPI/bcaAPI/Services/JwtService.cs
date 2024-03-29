@@ -15,13 +15,16 @@ namespace bcaAPI.Services
             _secretKey = secretKey;
         }
 
-        public string GenerateToken(IList<Claim> claims, int expires)
+        public string GenerateToken(IList<Claim> claims, int expires, string issuer, string audience)
         {
             // Tworzenie tokena
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Issuer = issuer,
+                Audience = audience,
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(expires), // Czas ważności tokena
+                Expires = DateTime.UtcNow.AddSeconds(expires), // Czas ważności tokena
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey)),
                     SecurityAlgorithms.HmacSha256Signature)

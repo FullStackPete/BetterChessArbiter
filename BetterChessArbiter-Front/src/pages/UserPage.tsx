@@ -1,5 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 function UserPage() {
-    return ( <h1>Not implemented yet</h1> );
+    const navigate = useNavigate()
+    return ( <div className="mt-12"> not implemented yet</div> );
 }
 
 export default UserPage;

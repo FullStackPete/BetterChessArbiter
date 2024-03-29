@@ -3,10 +3,10 @@ import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
-const LOGIN_URL = "/api/Auth/login";
+const LOGIN_URL = "/Auth/login";
 
 function LoginPage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const { setAuth } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
@@ -14,6 +14,12 @@ function LoginPage() {
 
     // role: "User", // Możesz ustawić domyślną rolę użytkownika tutaj
   });
+  function setAdmin() {
+    setFormData({
+      email: "piotrekjankowice@gmail.com",
+      password: "123456789PS",
+    });
+  }
   function handleChange(e: ChangeEvent) {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -34,7 +40,9 @@ function LoginPage() {
       setAuth({ role, token });
       if (role == "Admin") {
         navigate("/adminpanel");
-      } else {navigate("/")}
+      } else {
+        navigate("/");
+      }
     } catch (err: any) {
       alert(err.response.status);
     }
@@ -63,6 +71,13 @@ function LoginPage() {
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Login
+        </button>
+        <button
+          type="submit"
+          onClick={() => setAdmin()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Login as admin
         </button>
       </form>
     </div>

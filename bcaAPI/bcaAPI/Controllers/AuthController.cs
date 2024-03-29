@@ -5,6 +5,7 @@ using bcaAPI.Models;
 using bcaAPI.Services.Interfaces;
 using bcaAPI.Services;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bcaAPI.Controllers
 {
@@ -49,6 +50,28 @@ namespace bcaAPI.Controllers
             return Ok(user);
 
         }
+        [Authorize]
+        [HttpGet("refresh")]
+        public IActionResult Refresh()
+        {            
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null) {
+                return BadRequest(new { message = "User ID claim not found" });
+            }
+            var userId = new Guid (userIdClaim.Value);
+            var user = _userService.GetUserById(userId);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found." });
+            }
+            string role = GetRoleForUser(user);
+            if (role == null)
+            {
+                return BadRequest(new { message = "User without specified role." });
+            }
+            var token = GenerateJwtToken (user, role);
+            return Ok(new { token,role });  
+        }
 
         private bool VerifyPassword(User user, string password)
         {
@@ -76,8 +99,9 @@ namespace bcaAPI.Controllers
                 // You can add more claims here as needed
             };
 
-            var token = _jwtService.GenerateToken(claims, Convert.ToInt32(_configuration["JwtSettings:ExpirationMinutes"]));
+            var token = _jwtService.GenerateToken(claims, Convert.ToInt32(_configuration["JwtSettings:ExpirationMinutes"]), _configuration["JwtSettings:Issuer"], _configuration["JwtSettings:Audience"]);
             return token;
         }
+        
     }
 }
