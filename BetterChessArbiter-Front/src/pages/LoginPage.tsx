@@ -14,6 +14,10 @@ function LoginPage() {
 
     // role: "User", // Możesz ustawić domyślną rolę użytkownika tutaj
   });
+  
+  function sendJiggedData(){
+    
+  }
   function setAdmin() {
     setFormData({
       email: "piotrekjankowice@gmail.com",
@@ -21,7 +25,7 @@ function LoginPage() {
     });
   }
   function handleChange(e: ChangeEvent) {
-    const { name, value } = e.target;
+    const { name, value } = e.target as HTMLInputElement;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -33,8 +37,6 @@ function LoginPage() {
       const response = await axios.post(LOGIN_URL, formData, {
         withCredentials: true,
       });
-      console.log(response?.data);
-      console.log(response?.status);
       const token = response.data.token;
       const role = response.data.role;
       setAuth({ role, token });
@@ -79,6 +81,7 @@ function LoginPage() {
         >
           Login as admin
         </button>
+        <button onClick={()=>sendJiggedData()}>Send changed token</button>
       </form>
     </div>
   );

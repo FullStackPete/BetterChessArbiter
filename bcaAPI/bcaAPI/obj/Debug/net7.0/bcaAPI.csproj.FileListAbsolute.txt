@@ -517,3 +517,4 @@ D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\Microsof
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\libman.json
+D:\mojeprojekty\betterchessarbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\libman.json

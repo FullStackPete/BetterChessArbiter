@@ -1,11 +1,11 @@
 export type UserModel = {
   id: string;
-  Name: string;
-  Surname: string;
-  Email: string;
-  Password: string;
-  Salt: string;
-  Sex: string;
-  EmailConfirmed: boolean;
-  Role: "Admin" | "Organizer" | "User" | "Moderator";
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
+  salt: string;
+  sex: string;
+  emailConfirmed: boolean;
+  role: "Admin" | "Organizer" | "User" | "Moderator";
 };

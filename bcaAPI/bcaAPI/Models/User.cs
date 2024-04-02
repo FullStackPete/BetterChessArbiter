@@ -36,5 +36,6 @@ namespace bcaAPI.Models
         public Boolean EmailConfirmed { get; set; }
         [DefaultValue(UserRoles.User)]
         public string Role { get; set; } = UserRoles.User;
+        public string RefreshToken { get; set; }
     }
 }

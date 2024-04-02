@@ -30,12 +30,14 @@ namespace bcaAPI.Controllers
             var users = _userService.GetAllUsers();
             return Ok(users);
         }
-        
+
+        [Authorize]
         // GET: api/User/5
         [HttpGet("{id}")]
-        public ActionResult<User> GetUser(Guid id)
-        {            
-            var user = _userService.GetUserById(id);
+        public ActionResult<User> GetUser()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;            
+            var user = _userService.GetUserById(new Guid(userId));
 
             if (user == null)
             {
@@ -46,6 +48,9 @@ namespace bcaAPI.Controllers
             {                
                 return Forbid();
             }
+            user.Password = null;
+            user.Salt = null;
+            user.RefreshToken = null;
             return Ok(user);
         }
 

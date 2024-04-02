@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from "react-router-dom";
+import { UserModel } from "../../models/UserModel";
 
 function Users() {
   const [users, setUsers] = useState();
@@ -8,12 +9,13 @@ function Users() {
   const navigate = useNavigate();
   useEffect(() => {
     let isMounted = true;
-    const controller = new AbortController();
+    // const controller = new AbortController();
     const getUsers = async () => {
       try {
         const res = await axiosPrivate.get("/User", {
-          signal: controller.signal,
+          // signal: controller.signal,
         });
+
         console.log(res.data);
         isMounted && setUsers(res.data);
       } catch (error: unknown) {
@@ -27,7 +29,7 @@ function Users() {
         // controller.abort();
     };
   }, []);
-  return <>{users && users.map((user) => <div>{user.name}</div>)}</>;
+  return <>{users && (users as UserModel[]).map((user) => <div>{user.name}</div>)}</>;
 }
 
 export default Users;

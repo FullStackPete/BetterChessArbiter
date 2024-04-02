@@ -46,6 +46,7 @@ namespace bcaAPI.Services
                 userToUpdate.Password=user.Password;
                 userToUpdate.Sex = user.Sex;                
                 userToUpdate.EmailConfirmed=user.EmailConfirmed;
+                userToUpdate.RefreshToken = user.RefreshToken;
 
                 _BCAContextDb.Users.Update(userToUpdate);
 

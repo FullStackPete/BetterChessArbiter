@@ -14,7 +14,7 @@ function RegisterPage() {
   });
 
   const handleChange = (e: ChangeEvent) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target as HTMLInputElement;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,

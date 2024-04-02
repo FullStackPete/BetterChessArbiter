@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import axios, { axiosPrivate } from "../api/axios";
+import axios from "../api/axios";
+import { AuthType } from "../context/AuthProvider";
 import useAuth from "./useAuth";
 
 function useRefreshToken() {
@@ -9,15 +9,18 @@ function useRefreshToken() {
     const response = await axios.get("/Auth/refresh", {
       withCredentials: true,
       headers: {
-        Authorization: `Bearer ${auth.token}`,
+        Authorization: `Bearer ${auth?.token}`,
       },
     });
-    console.log(response);
-    const newAccessToken = response.data.token;
-    console.log(newAccessToken); // Dodaj to logowanie
-    setAuth((prev) => {
-      return { ...prev, token: response.data.token };
+    const newAccessToken: string = response.data.token;
+    setAuth((prev: AuthType | undefined) => {
+      if (!prev) {
+        throw new Error("No previous auth state specified"); // Return undefined if previous state is undefined
+      }
+      return { ...prev, token: newAccessToken };
     });
+
+    return newAccessToken;
   };
 
   return refresh;

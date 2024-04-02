@@ -1,10 +1,13 @@
+import { MouseEventHandler } from "react";
+
 type Props = {
 className?: string,
 Icon:string,
+onClick?:MouseEventHandler
 }
 
-function Icon({className, Icon}:Props) {
-    return ( <span className={`material-symbols-outlined ` + className}>{Icon}</span> );
+function Icon({className,onClick, Icon}:Props) {
+    return ( <span onClick={onClick} className={`material-symbols-outlined ` + className}>{Icon}</span> );
 }
 
 export default Icon;

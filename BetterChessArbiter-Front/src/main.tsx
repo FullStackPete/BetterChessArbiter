@@ -8,7 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminPanelPage from "./pages/AdminPanelPage";
 import FavouriteTournamentsPage from "./pages/FavouriteTournamentsPage";
-import ManageTournamentsPage from "./pages/ManageTournamentsPage";
+import VerifyTournamentsPage from "./pages/VerifyTournamentsPage";
 import OrganizeTournamentsPage from "./pages/OrganizeTournamentPage";
 import TournamentPage from "./pages/TournamentPage";
 import UserPage from "./pages/UserPage";
@@ -18,58 +18,124 @@ import { AuthProvider } from "./context/AuthProvider";
 import RequireAuth from "./helpers/RequireAuth";
 import { roles } from "./constants";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
-import { Admin } from "mongodb";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <>
+        <Navbar />
+        <HomePage />
+        <Footer />
+      </>
+    ),
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <>
+        <Navbar />
+        <LoginPage />
+        <Footer />
+      </>
+    ),
   },
   {
     path: "/register",
-    element: <RegisterPage />,
+    element: (
+      <>
+        <Navbar />
+        <RegisterPage />
+        <Footer />
+      </>
+    ),
   },
   {
     path: "/adminpanel",
     element: (
       <RequireAuth requiredRole={roles.admin}>
+        <Navbar />
         <AdminPanelPage />
+        <Footer />
       </RequireAuth>
     ),
   },
   {
     path: "/favouritetournaments",
-    element: <FavouriteTournamentsPage />,
+    element: (
+      <>
+        <Navbar />
+        <FavouriteTournamentsPage />
+        <Footer />
+      </>
+    ),
   },
   {
-    path: "/managetournaments",
-    element: <ManageTournamentsPage />,
+    path: "/verifytournaments",
+    element: (
+      <>
+        <Navbar />
+        <VerifyTournamentsPage />
+        <Footer />
+      </>
+    ),
   },
   {
     path: "/organize",
-    element: <OrganizeTournamentsPage />,
+    element: (
+      <RequireAuth requiredRole={roles.admin || roles.organizer}>
+        <Navbar />
+        <OrganizeTournamentsPage />
+        <Footer />
+      </RequireAuth>
+    ),
   },
   {
     path: "/tournament/:id",
-    element: <TournamentPage />,
+    element: (
+      <>
+        <Navbar />
+        <TournamentPage />
+        <Footer />
+      </>
+    ),
   },
   {
     path: "/user/:id",
-    element: <UserPage />,
+    element: (
+      <>
+        <Navbar />
+        <UserPage />
+        <Footer />
+      </>
+    ),
+  },
+  {
+    path: "/error",
+    element: (
+      <>
+        <Navbar />
+        <ErrorPage />
+        <Footer />
+      </>
+    ),
+  },
+  {
+    path: "/unauthorized",
+    element: (
+      <>
+        <Navbar />
+        <UnauthorizedPage />
+        <Footer />
+      </>
+    ),
   },
   { path: "*", element: <ErrorPage /> },
-  { path: "/unauthorized", element: <UnauthorizedPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
-      <Navbar />
       <RouterProvider router={router} />
-      <Footer />
     </AuthProvider>
   </React.StrictMode>
 );

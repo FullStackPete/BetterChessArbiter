@@ -8,7 +8,7 @@ function AdminPanelPage() {
     <div className="text-4xl mt-20">
       <Users />
       <button onClick={() => navigate("/organize")}>Go to organize</button>
-      <button onClick={() => refresh()}>Get new token</button>
+      <button onClick={() => refresh()}>Get new token</button>      
     </div>
   );
 }

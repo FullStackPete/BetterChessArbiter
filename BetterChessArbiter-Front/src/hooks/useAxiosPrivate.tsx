@@ -10,8 +10,8 @@ function useAxiosPrivate() {
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-        if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${auth?.token}`;
+        if (!config.headers.Authorization) {
+          config.headers.Authorization = `Bearer ${auth?.token}`;
         }
         return config;
       },
@@ -26,14 +26,15 @@ function useAxiosPrivate() {
           prevRequest.sent = true;
           const newAccessToken = await refresh();
           console.log("New access token:", newAccessToken);
-          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          console.log(newAccessToken);
+          prevRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axiosPrivate(prevRequest);
         }
         return Promise.reject(err);
       }
     );
+
     console.log(auth);
+
     return () => {
       axiosPrivate.interceptors.response.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);

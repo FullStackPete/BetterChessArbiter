@@ -1,14 +1,13 @@
 type WaveType = {
   fill: string;
-  background: string;
   viewBox: string;
   rotate: boolean;
 };
 
-function Wave({ fill, background, viewBox, rotate }: WaveType) {
+function Wave({ fill, viewBox, rotate }: WaveType) {
   return (
     <div
-      className={`wave bg-[${background}] ${
+      className={`wave ${
         rotate ? "rotate-180" : ""
       }`}
     >

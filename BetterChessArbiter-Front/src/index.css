@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/*Palette: https://coolors.co/d0b8ac-f3d8c7-efe5dc-fbfefb-ffffff  */
+/* Palette: https://coolors.co/d0b8ac-f3d8c7-efe5dc-fbfefb-ffffff  */
 body {
   @apply bg-[#EFEFEF];
 }
@@ -11,7 +11,8 @@ section {
 }
 .wave {
   position: absolute;
-  bottom: 0;
+  bottom: -0.2%;
+  top:5;
   left: 0;
   width: 100%;
   overflow: hidden;
@@ -21,10 +22,13 @@ section {
 .wave svg {
   position: relative;
   display: block;
-  width: calc(119% + 1.3px);
+  width: calc(130% + 1.3px);
   height: 106px;
 }
 
-.transition-transform{
-  transition-duration:450ms;
+.transition-transform {
+  transition-duration: 450ms;
+}
+.sidebar li {
+  @apply m-2 flex items-center;
 }
