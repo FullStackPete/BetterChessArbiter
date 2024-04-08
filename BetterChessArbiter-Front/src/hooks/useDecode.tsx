@@ -3,14 +3,16 @@ import useAuth from "./useAuth";
 import { useEffect, useState } from "react";
 function useDecode() {
   const { auth } = useAuth();
-  const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(null);
+  const [decodedToken, setDecodedToken] = useState<JwtPayload | null>(
+    null
+  );
   useEffect(() => {
     const decode = async () => {
       try {
         const token = auth?.token;
         if (token) {
           const decoded = jwtDecode(token);
-          console.log(decoded)
+          console.log(decoded);
           setDecodedToken(decoded);
         }
       } catch (err) {

@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 type Props = {
 className?: string,
 Icon:string,
-onClick?:MouseEventHandler
+onClick?:MouseEventHandler<HTMLSpanElement>
 }
 
 function Icon({className,onClick, Icon}:Props) {

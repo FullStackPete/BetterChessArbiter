@@ -12,7 +12,7 @@ section {
 .wave {
   position: absolute;
   bottom: -0.2%;
-  top:5;
+  top: 5;
   left: 0;
   width: 100%;
   overflow: hidden;
@@ -24,6 +24,7 @@ section {
   display: block;
   width: calc(130% + 1.3px);
   height: 106px;
+  
 }
 
 .transition-transform {
@@ -31,4 +32,26 @@ section {
 }
 .sidebar li {
   @apply m-2 flex items-center;
+}
+.admin-options li {
+  @apply border-b border-[#d6d6d6];
+}
+.admin-options li:last-child {
+  @apply border-none;
+}
+
+.search-input[type="text"]:not(:placeholder-shown) ~ .search-icon {
+  @apply bg-white -translate-x-44 -translate-y-[2.75rem] scale-75 text-gray-600;
+}
+
+.search-input:not(:placeholder-shown) {
+  @apply  -translate-y-8 -translate-x-20 ;
+}
+
+.search-input:not(:placeholder-shown) ~ .search-result {
+  @apply md:absolute bg-white md:z-50 flex flex-col min-w-[95vw];
+}
+
+body:has(.search-input:not(:placeholder-shown)) {
+  @apply overflow-hidden bg-white;
 }

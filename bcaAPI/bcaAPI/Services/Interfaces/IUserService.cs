@@ -6,6 +6,8 @@ namespace bcaAPI.Services.Interfaces
     public interface IUserService
     {
         IEnumerable<User> GetAllUsers();
+        IEnumerable<User> GetLimitedUsers(int limit, int? from);
+        public int CountUsers();
         User GetUserById(Guid id);
 
         void AddUser(User newUser);

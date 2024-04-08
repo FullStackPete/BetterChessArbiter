@@ -4,3 +4,4 @@ export const roles = {
   user: "User",
   organizer: "Organizer",
 };
+export const limit:number = 10;

@@ -3,6 +3,7 @@ import Icon from "./Icon";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import useDecode from "../hooks/useDecode";
+import BgBlur from "./BgBlur";
 
 function Sidebar() {
   const { auth } = useAuth();
@@ -23,9 +24,7 @@ function Sidebar() {
         }`}
         onClick={() => setShowBar(!showBar)}
       />
-      {showBar && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black backdrop-blur-sm bg-opacity-50"></div>
-      )}
+      {showBar && <BgBlur />}
       <div
         className={`transition-transform ${
           showBar ? "translate-x-0" : "translate-x-full"

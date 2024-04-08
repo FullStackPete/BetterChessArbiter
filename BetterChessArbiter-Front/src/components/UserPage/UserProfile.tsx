@@ -3,8 +3,9 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { UserModel } from "../../models/UserModel";
 import useDecode from "../../hooks/useDecode";
 import { useNavigate } from "react-router-dom";
+import UserOptions from "./UserOptions";
 
-type decodedUserToken = {
+export type decodedUserToken = {
   aud: string;
   email: string;
   exp: number;
@@ -22,7 +23,7 @@ function UserProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState<UserModel>();
   const axiosPrivate = useAxiosPrivate();
-  const userInfo = useDecode<decodedUserToken>();
+  const userInfo = useDecode();
   useEffect(() => {
     let isMounted = true;
     // const controller = new AbortController();
@@ -45,7 +46,14 @@ function UserProfile() {
       // controller.abort();
     };
   }, []);
-  return <>{user && <div>{user.name}</div>}</>;
+  return <>{user && <div className="flex flex-col justify-center bg-white m-4 p-2 rounded-lg">
+    <div className="flex flex-col"> 
+    <p className="font-semibold my-4 text-3xl">Good to see you {user.name}!</p>
+    <p className="text-lg font-medium"> What are you up to?</p>
+    <UserOptions/>
+    </div>
+
+    </div>}</>;
 }
 
 export default UserProfile;

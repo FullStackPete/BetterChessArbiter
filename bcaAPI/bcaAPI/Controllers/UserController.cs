@@ -28,7 +28,26 @@ namespace bcaAPI.Controllers
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             var users = _userService.GetAllUsers();
+            
             return Ok(users);
+        }
+        [Authorize(Roles = "Admin")]
+
+        [HttpGet("query")]
+        public ActionResult<IEnumerable<User>> GetLimitedUsers([FromQuery]int limit, int? from)
+        {
+            var users = _userService.GetLimitedUsers(limit,from);
+            return Ok(users);
+        }
+        [HttpGet("count")]
+        public ActionResult<int> CountUsers()
+        {
+            var count = _userService.CountUsers();
+            if (count > 0)
+            {
+                return Ok(count);
+            }
+            else return NotFound();
         }
 
         [Authorize]
@@ -66,23 +85,20 @@ namespace bcaAPI.Controllers
         }
 
 
-        [Authorize(Roles="User, Organizer, Moderator, Admin")]
+        [Authorize(Roles="Admin, User, Organizer, Moderator")]
         // PUT: api/User/5
         [HttpPut("{id}")]
         public IActionResult PutUser(Guid id, User user)
         {
-
+            var userRole = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             var requestingUserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (requestingUserId != user.Id.ToString())
+            if (userRole != "Admin")
             {
-                return Forbid();
-            }            
-
-            if (!_userService.GetUserById(id).Equals(user))
-            {
-                return BadRequest();
-            }
-
+                if (requestingUserId != user.Id.ToString())
+                {
+                    return Unauthorized("You are not authorized to put this user. ");
+                }
+            }           
             try
             {
                 _userService.EditUser(user);

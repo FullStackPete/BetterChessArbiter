@@ -15,9 +15,35 @@ namespace bcaAPI.Services
             _BCAContextDb = BCAContextDb;
             _PasswordService = passwordService;
         }
+        public IEnumerable<User> GetLimitedUsers(int limit,int? from) {
+            if (from.HasValue && from.Value >= 0)
+            {
+                return _BCAContextDb.Users.OrderBy(user => user.Id)
+                                          .Skip(from.Value)
+                                          .Take(limit)
+                                          .AsNoTracking()
+                                          .ToList();
+            }
+            else
+            {
+                // Jeśli nie ma określonego "from", zwróć początkowe "limit" rekordów
+                return _BCAContextDb.Users.OrderBy(user => user.Id)
+                                          .Take(limit)
+                                          .AsNoTracking()
+                                          .ToList();
+            }
+        }
+        public int CountUsers()
+        {
+            return _BCAContextDb.Users.Count();
+        }
         public IEnumerable<User> GetAllUsers()
-        {            
-            return _BCAContextDb.Users.OrderBy(user => user.Id).AsNoTracking().AsEnumerable<User>(); ;
+        { var users = _BCAContextDb.Users.OrderBy(user => user.Id).AsNoTracking().AsEnumerable<User>();
+            foreach (var user in users)
+            {
+                user.Password = null;
+            }
+            return users;
         }
         public User GetUserById(Guid id) {
             return _BCAContextDb.Users.FirstOrDefault(user => user.Id == id);
@@ -46,6 +72,7 @@ namespace bcaAPI.Services
                 userToUpdate.Password=user.Password;
                 userToUpdate.Sex = user.Sex;                
                 userToUpdate.EmailConfirmed=user.EmailConfirmed;
+                userToUpdate.Role = user.Role;
                 userToUpdate.RefreshToken = user.RefreshToken;
 
                 _BCAContextDb.Users.Update(userToUpdate);

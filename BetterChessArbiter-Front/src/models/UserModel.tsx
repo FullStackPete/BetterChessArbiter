@@ -7,5 +7,6 @@ export type UserModel = {
   salt: string;
   sex: string;
   emailConfirmed: boolean;
-  role: "Admin" | "Organizer" | "User" | "Moderator";
+  role: roles;
 };
+export type roles = "Admin" | "Organizer" | "User" | "Moderator";

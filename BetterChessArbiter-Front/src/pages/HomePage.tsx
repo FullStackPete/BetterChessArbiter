@@ -26,8 +26,7 @@ function HomePage() {
               favourites and search for those which suit you the best!
             </p>
             <p className="text-xl my-4">
-              Sign up to get access to all of our great features. It's{" "}
-              <em>free</em> and it's simply worth it.
+              Sign up to get access to all of our great features. It's <em>free</em> and it's simply worth it.
             </p>
           </>
         )}
