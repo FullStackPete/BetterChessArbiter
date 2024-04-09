@@ -48,8 +48,8 @@ function UserProfile() {
   }, []);
   return <>{user && <div className="flex flex-col justify-center bg-white m-4 p-2 rounded-lg">
     <div className="flex flex-col"> 
-    <p className="font-semibold my-4 text-3xl">Good to see you {user.name}!</p>
-    <p className="text-lg font-medium"> What are you up to?</p>
+    <p className="font-semibold m-4 text-3xl">Good to see you {user.name}!</p>
+    <p className="text-lg font-medium mx-4"> What are you up to?</p>
     <UserOptions/>
     </div>
 
