@@ -1,8 +1,10 @@
+import { JwtPayload } from "jwt-decode";
 import { PropsWithChildren, createContext, useState } from "react";
 
 export type AuthType = {
   token: string;
   role: string;
+  decodedToken: JwtPayload;
 };
 
 type AuthContext = {

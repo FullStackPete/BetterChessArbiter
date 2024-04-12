@@ -1,39 +1,53 @@
+import { useNavigate } from "react-router-dom";
 import { roles } from "../../constants";
 import useAuth from "../../hooks/useAuth";
-import OptionTemplate from "./OptionTemplate";
+import TileTemplate from "./TileTemplate";
 
 function UserOptions() {
+  const navigate = useNavigate();
   const { auth } = useAuth();
 
   return (
     <div className="flex flex-col mt-4">
       <div className="flex flex-row">
-        <OptionTemplate
-          topText="Addresses"
-          description="Click here to manage your address!"
+        <TileTemplate
+          topText="Address book"
+          description="Click here to manage your addresses!"
           iconName="book_3"
+          bg={"#F3D8C7"}
+          href={"#address-book"}
+          isOption={true}
         />
-        <OptionTemplate
+        <TileTemplate
           topText="Favourites"
           description="See your favourite tournaments!"
           iconName="star"
+          bg={"#EFE5DC"}
+          href={"#favourites"}
+          isOption={true}
         />
       </div>
       <div className="flex flex-row">
         {auth?.role == roles.admin && (
-          <OptionTemplate
+          <TileTemplate
             topText={"Admin panel"}
-            description={"Manage all users now!"}
+            description={"Manage all users and their roles now!"}
             iconName={"manage_accounts"}
+            bg={"#FBFEFB"}
+            onClickFn={() => navigate("/adminpanel")}
+            isOption={true}
           />
         )}
         {(auth?.role == roles.admin || auth?.role == roles.moderator) && (
-            <OptionTemplate
-              topText={"Verify tournaments"}
-              description={"Click here to verify and manage new tournaments!"}
-              iconName={"verified_user"}
-            />
-          )}
+          <TileTemplate
+            topText={"Verify tournaments"}
+            description={"Click here to verify and manage new tournaments!"}
+            iconName={"verified_user"}
+            bg={"#FFFFFF"}
+            onClickFn={() => navigate("/verifytournaments")}
+            isOption={true}
+          />
+        )}
       </div>
     </div>
   );

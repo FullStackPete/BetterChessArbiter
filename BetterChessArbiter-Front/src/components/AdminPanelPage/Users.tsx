@@ -30,10 +30,14 @@ function Users() {
     };
     getAll();
     const getInitial = async () => {
+      try {
       const usersCount = await axiosPrivate.get("/User/count");
       setUsersCount(await usersCount.data);
       const res = await axiosPrivate.get("/User/query?limit=5&from=0");
       setUsers(await res.data);
+      } catch (error) {
+      navigate("/login");        
+      }      
     };
     getInitial();
   }, []);

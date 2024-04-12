@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const LOGIN_URL = "/Auth/login";
 
@@ -11,8 +12,6 @@ function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-
-    // role: "User", // Możesz ustawić domyślną rolę użytkownika tutaj
   });
   
   function sendJiggedData(){
@@ -37,9 +36,11 @@ function LoginPage() {
       const response = await axios.post(LOGIN_URL, formData, {
         withCredentials: true,
       });
+      
       const token = response.data.token;
       const role = response.data.role;
-      setAuth({ role, token });
+      const decodedToken = jwtDecode(token);
+      setAuth({ role, token, decodedToken });
       if (role == "Admin") {
         navigate("/adminpanel");
       } else {
@@ -88,3 +89,4 @@ function LoginPage() {
 }
 
 export default LoginPage;
+

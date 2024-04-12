@@ -11,6 +11,8 @@ namespace bcaAPI.Models
         public Guid Id { get; set; }
         [Required(ErrorMessage ="Address must have an assigned user!")]
         public Guid UserId { get; set; }
+        [Required(ErrorMessage ="Address must have name")]
+        public string Name { get; set; }
         [Required(ErrorMessage ="Country is required")]
         public string Country { get; set; }
         [Required(ErrorMessage ="City is required")]

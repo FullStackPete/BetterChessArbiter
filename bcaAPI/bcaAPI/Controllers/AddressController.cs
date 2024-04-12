@@ -1,12 +1,11 @@
 ﻿using bcaAPI.Models;
 using bcaAPI.Services;
+using bcaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System.Net;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 
 namespace bcaAPI.Controllers
 {    
@@ -14,8 +13,8 @@ namespace bcaAPI.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly AddressService _addressService;
-        public AddressController(AddressService addressService)
+        private readonly IAddressService _addressService;
+        public AddressController(IAddressService addressService)
         {
             _addressService = addressService;
         }
@@ -25,6 +24,20 @@ namespace bcaAPI.Controllers
         {
             var allAddresses = _addressService.GetAllAddresses();
             return Ok(allAddresses);
+        }
+        [Authorize]
+        [HttpGet("user/{id}")]
+        public ActionResult <IEnumerable<Address>> GetAllAddressesByUserId(Guid id) {
+            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if(userId != id.ToString()) {
+                return Unauthorized("You are not authorized to view this users addresses.");
+            }
+            var addresses = _addressService.GetAddressesByUserId(id);
+            if (addresses != null)
+            {
+                return Ok(addresses);
+            }
+            else return NotFound();
         }
         [Authorize]
         [HttpGet("{id}")]

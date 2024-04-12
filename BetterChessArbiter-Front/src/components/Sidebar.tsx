@@ -2,14 +2,12 @@ import { useState } from "react";
 import Icon from "./Icon";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import useDecode from "../hooks/useDecode";
 import BgBlur from "./BgBlur";
 
 function Sidebar() {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const [showBar, setShowBar] = useState(false);
-  const user = useDecode();
   function handleNavigate(to: string) {
     setShowBar(!showBar);
     navigate(to);
@@ -49,10 +47,10 @@ function Sidebar() {
               </li>
             </>
           )}
-          {auth?.role && user && (
+          {auth?.role && auth.decodedToken && (
             <li
               onClick={() => {
-                handleNavigate(`/user/${user.nameid}`);
+                handleNavigate(`/user/${auth.decodedToken.nameid}`);
               }}
             >
               Your account
@@ -61,10 +59,10 @@ function Sidebar() {
           {auth?.role == "Admin" && (
             <li onClick={() => handleNavigate("/adminpanel")}>Admin panel</li>
           )}
-          {auth?.role && (
+          {auth?.role && auth.decodedToken && (
             <li
               onClick={() => {
-                handleNavigate("/favouritetournaments");
+                handleNavigate(`/user/${auth.decodedToken.nameid}#favourites`);
               }}
             >
               Your favourites

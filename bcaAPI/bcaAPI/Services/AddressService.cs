@@ -43,6 +43,7 @@ namespace bcaAPI.Services
             var addressToEdit = _BCAContextDb.Addresses.FirstOrDefault();
             if (addressToEdit != null)
             {
+                addressToEdit.Name = address.Name;
                 addressToEdit.Country = address.Country;
                 addressToEdit.City = address.City;
                 addressToEdit.Street = address.Street;
