@@ -10,7 +10,7 @@ type TileTemplateProps = {
   onClickFn?: () => void;
   children?:ReactNode;
   isOption: boolean;
-  
+  onIconClick?:()=>void;
 };
 function TileTemplate({
   topText,
@@ -20,7 +20,8 @@ function TileTemplate({
   bg,
   href,
   isOption,
-  children
+  children,
+  onIconClick
 }: TileTemplateProps) {
   if (isOption) {
     return (
@@ -41,12 +42,12 @@ function TileTemplate({
     return (
       <div
         style={{ backgroundColor: bg }}
-        className="w-1/2 rounded-lg p-4 shadow-md  m-2"
+        className="w-1/2 rounded-lg p-4 shadow-md m-2"
         onClick={onClickFn}
       >
         <div className="justify-between flex flex-row">
           <p className="font-semibold text-lg">{topText}</p>
-          <Icon Icon={iconName} />
+          <Icon Icon={iconName} onClick={onIconClick} />
         </div>
         <div className="flex flex-col text-sm">{children}</div>
       </div>

@@ -5,9 +5,18 @@ import TileTemplate from "./TileTemplate";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Icon from "../Icon";
 import useAuth from "../../hooks/useAuth";
+type editInputProps = {
+  defaultValue:string;
+  type?:string;
+}
+
+function EditInput({defaultValue, type}:editInputProps){
+return <input type={type} defaultValue={defaultValue} className="border-b" />
+}
 
 function AddressBookSection() {
-    const {auth} = useAuth()
+  const { auth } = useAuth();
+  const [isEdited, setIsEdited] = useState<boolean>(false);
   const [addresses, setAddresses] = useState<AddressModel[]>();
   const axiosPrivate = useAxiosPrivate();
 
@@ -15,7 +24,9 @@ function AddressBookSection() {
     let isMounted = true;
     const getData = async () => {
       try {
-        const res = await axiosPrivate.get(`/Address/user/${auth?.decodedToken.nameid}`);
+        const res = await axiosPrivate.get(
+          `/Address/user/${auth?.decodedToken.nameid}`
+        );
         console.log(res.data);
         isMounted && setAddresses(res.data);
       } catch (error) {
@@ -27,11 +38,17 @@ function AddressBookSection() {
       isMounted = false;
     };
   }, []);
+  const handleApproveEdit = () => {
+    setIsEdited(false);
+  };
+  const handleEditClick = () => {
+    setIsEdited(true);
+  };
   return (
     <>
       {addresses && (
         <SectionContainer background={"#F3D8C7"}>
-          <div id="address-book"className="flex flex-col m-4">
+          <div id="address-book" className="flex flex-col m-4">
             <div className="flex flex-row justify-between items-center">
               <p className="text-2xl font-semibold my-4">Address book</p>
               <Icon Icon="book_3" className="text-3xl font-medium" />
@@ -44,18 +61,42 @@ function AddressBookSection() {
             {addresses.map((address) => {
               return (
                 <TileTemplate
+                  onIconClick={handleEditClick}
                   topText={address.name}
                   iconName={"edit"}
                   bg={"#FBFEFB"}
                   isOption={false}
                 >
-                  <p>
-                    {address.street} {address.houseNumber}
-                  </p>
-                  <p>
-                    {address.city} {address.postalCode}
-                  </p>
-                  <p> {address.country}</p>
+                  {isEdited && (
+                    <>
+                      <EditInput defaultValue={address.street} />{" "}
+                      <EditInput type="text" defaultValue={address.houseNumber} />
+                      <br />
+                      <EditInput defaultValue={address.postalCode} />{" "}
+                      <EditInput defaultValue={address.city} type="text" />
+                      <br />
+                      <EditInput defaultValue={address.country} />
+                      <br />
+                      <button>
+                        <Icon
+                          onClick={handleApproveEdit}
+                          Icon="check"
+                          className="bg-green-400 rounded-sm"
+                        />
+                      </button>
+                    </>
+                  )}
+                  {isEdited == false && (
+                    <>
+                      <p>
+                        {address.street} {address.houseNumber}
+                      </p>
+                      <p>
+                        {address.postalCode} {address.city}
+                      </p>
+                      <p> {address.country}</p>
+                    </>
+                  )}
                 </TileTemplate>
               );
             })}
