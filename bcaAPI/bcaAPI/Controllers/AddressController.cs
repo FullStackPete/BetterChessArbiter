@@ -69,24 +69,20 @@ namespace bcaAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateAddress(Guid id,Address newAddress) {
+        public ActionResult UpdateAddress(Address newAddress) {
             var addressOfUser = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (addressOfUser != newAddress.UserId.ToString())
             {
-                return Forbid();
-            }
-            if(!_addressService.GetAddressById(id).Equals(newAddress))
-            {
-                return BadRequest("Ids don't match!");
-            }
+                return Forbid(); 
+            }            
             try
             {
-                _addressService.EditAddress(newAddress);
+                _addressService.EditAddress(newAddress);                
             }
             catch (DBConcurrencyException ex) {
-            return BadRequest(ex.Message);  
+                return BadRequest(ex.Message);  
             }
-            return NoContent();
+            return Ok(newAddress);
         }
         [HttpDelete("{id}")]
         public ActionResult DeleteAddress(Guid id)

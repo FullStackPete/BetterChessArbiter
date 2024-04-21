@@ -10,7 +10,7 @@ type TileTemplateProps = {
   onClickFn?: () => void;
   children?:ReactNode;
   isOption: boolean;
-  onIconClick?:()=>void;
+  onIconClick?:()=>void | ((arg1:string)=>void);
 };
 function TileTemplate({
   topText,

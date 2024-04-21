@@ -50,6 +50,9 @@ namespace bcaAPI.Services
                 addressToEdit.HouseNumber = address.HouseNumber;
                 addressToEdit.PostalCode = address.PostalCode;
                 addressToEdit.isPrimary = address.isPrimary;
+
+                _BCAContextDb.Addresses.Update(addressToEdit);
+                _BCAContextDb.SaveChanges();
             }
         }
 

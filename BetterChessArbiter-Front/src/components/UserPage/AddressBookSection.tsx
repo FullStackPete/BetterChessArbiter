@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import SectionContainer from "./SectionContainer";
 import { AddressModel } from "../../models/AddressModel";
 import TileTemplate from "./TileTemplate";
@@ -6,18 +6,33 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Icon from "../Icon";
 import useAuth from "../../hooks/useAuth";
 type editInputProps = {
-  defaultValue:string;
-  type?:string;
-}
+  defaultValue: string;
+  type?: string;
+  onChange: (arg1: ChangeEvent<HTMLInputElement>, arg2: string) => void;
+  fieldName: string;
+};
 
-function EditInput({defaultValue, type}:editInputProps){
-return <input type={type} defaultValue={defaultValue} className="border-b" />
+function EditInput({
+  defaultValue,
+  type,
+  onChange,
+  fieldName,
+}: editInputProps) {
+  return (
+    <input
+      type={type}
+      defaultValue={defaultValue}
+      onChange={(e) => onChange(e, fieldName)}
+      className="border-b"
+    />
+  );
 }
 
 function AddressBookSection() {
   const { auth } = useAuth();
   const [isEdited, setIsEdited] = useState<boolean>(false);
   const [addresses, setAddresses] = useState<AddressModel[]>();
+  const [editedValues, setEditedValues] = useState<Partial<AddressModel>>();
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
@@ -38,11 +53,51 @@ function AddressBookSection() {
       isMounted = false;
     };
   }, []);
-  const handleApproveEdit = () => {
-    setIsEdited(false);
+  const handleValueChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    field: string
+  ) => {
+    setEditedValues((prevValues) => ({
+      ...prevValues,
+      [field]: e.target.value,
+    }));
   };
-  const handleEditClick = () => {
-    setIsEdited(true);
+
+  const handleApproveEdit = async () => {
+    setIsEdited(false);
+    console.log(editedValues);
+    try {
+      const res = await axiosPrivate.put(
+        `/Address/${auth?.decodedToken.nameid}`,
+        editedValues
+      );
+      if (res.status === 200) {
+        setAddresses((prevAddresses) =>
+          prevAddresses?.map((address) =>
+            address.id === editedValues!.id
+              ? { ...address, ...editedValues }
+              : address
+          )
+        );
+      }
+      console.log("Res.data:", res.data);
+      console.log("Res.status:", res.status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleEditClick = (initValues: AddressModel) => {
+    setIsEdited(!isEdited);
+    setEditedValues({
+      userId: initValues.userId,
+      id: initValues.id,
+      name: initValues.name,
+      city: initValues.city,
+      country: initValues.country,
+      street: initValues.street,
+      houseNumber: initValues.houseNumber,
+      postalCode: initValues.postalCode,
+    });
   };
   return (
     <>
@@ -61,7 +116,8 @@ function AddressBookSection() {
             {addresses.map((address) => {
               return (
                 <TileTemplate
-                  onIconClick={handleEditClick}
+                  key={address.id}
+                  onIconClick={() => handleEditClick(address)}
                   topText={address.name}
                   iconName={"edit"}
                   bg={"#FBFEFB"}
@@ -69,13 +125,35 @@ function AddressBookSection() {
                 >
                   {isEdited && (
                     <>
-                      <EditInput defaultValue={address.street} />{" "}
-                      <EditInput type="text" defaultValue={address.houseNumber} />
+                      <EditInput
+                        onChange={handleValueChange}
+                        defaultValue={address.street}
+                        fieldName="street"
+                      />{" "}
+                      <EditInput
+                        onChange={handleValueChange}
+                        type="text"
+                        defaultValue={address.houseNumber}
+                        fieldName="houseNumber"
+                      />
                       <br />
-                      <EditInput defaultValue={address.postalCode} />{" "}
-                      <EditInput defaultValue={address.city} type="text" />
+                      <EditInput
+                        onChange={handleValueChange}
+                        defaultValue={address.postalCode}
+                        fieldName="postalCode"
+                      />{" "}
+                      <EditInput
+                        onChange={handleValueChange}
+                        defaultValue={address.city}
+                        type="text"
+                        fieldName="city"
+                      />
                       <br />
-                      <EditInput defaultValue={address.country} />
+                      <EditInput
+                        onChange={handleValueChange}
+                        defaultValue={address.country}
+                        fieldName="Country"
+                      />
                       <br />
                       <button>
                         <Icon
