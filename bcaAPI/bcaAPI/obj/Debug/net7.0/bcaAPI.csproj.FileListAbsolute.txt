@@ -188,7 +188,6 @@ D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\staticwe
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.bcaAPI.props
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\staticwebassets.pack.json
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\scopedcss\bundle\bcaAPI.styles.css
-D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\bcaAPI.csproj.CopyComplete
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\bcaAPI.dll
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\refint\bcaAPI.dll
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\bcaAPI.pdb
@@ -518,3 +517,4 @@ D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\Microsof
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
 D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\libman.json
 D:\mojeprojekty\betterchessarbiter\bcaAPI\bcaAPI\bin\Debug\net7.0\libman.json
+D:\PrivateProgramming\BetterChessArbiter\bcaAPI\bcaAPI\obj\Debug\net7.0\bcaAPI.csproj.Up2Date

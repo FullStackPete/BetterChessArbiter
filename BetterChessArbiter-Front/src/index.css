@@ -55,3 +55,7 @@ section {
 body:has(.search-input:not(:placeholder-shown)) {
   @apply overflow-hidden bg-white;
 }
+
+.addNewAddress label{
+@apply text-sm;
+}

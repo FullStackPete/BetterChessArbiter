@@ -27,13 +27,13 @@ function TileTemplate({
     return (
       <a
         style={{ backgroundColor: bg }}
-        className="w-1/2 rounded-lg p-4 shadow-md  m-2"
+        className="w-1/2 rounded-lg p-4 shadow-md m-2"
         href={href}
         onClick={onClickFn}
       >
         <div className="justify-between flex flex-row">
           <p className="font-semibold text-lg">{topText}</p>
-          <Icon Icon={iconName} />
+          <Icon Icon={iconName}  />
         </div>
         <p className="text-sm">{description}</p>
       </a>
@@ -46,7 +46,7 @@ function TileTemplate({
         onClick={onClickFn}
       >
         <div className="justify-between flex flex-row">
-          <p className="font-semibold text-lg">{topText}</p>
+          <p className="font-semibold text-base">{topText}</p>
           <Icon Icon={iconName} onClick={onIconClick} />
         </div>
         <div className="flex flex-col text-sm">{children}</div>
