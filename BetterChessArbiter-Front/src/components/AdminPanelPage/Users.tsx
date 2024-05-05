@@ -7,6 +7,8 @@ import { limit } from "../../constants";
 import BgBlur from "../BgBlur";
 import SearchComponent from "../SearchComponent";
 import UserResult from "./UserResult";
+import UserDeleteConfirmation from "./DeleteConfirmation";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 function Users() {
   const [allUsers, setAllUsers] = useState<UserModel[] | []>([]);
@@ -31,13 +33,13 @@ function Users() {
     getAll();
     const getInitial = async () => {
       try {
-      const usersCount = await axiosPrivate.get("/User/count");
-      setUsersCount(await usersCount.data);
-      const res = await axiosPrivate.get("/User/query?limit=5&from=0");
-      setUsers(await res.data);
+        const usersCount = await axiosPrivate.get("/User/count");
+        setUsersCount(await usersCount.data);
+        const res = await axiosPrivate.get("/User/query?limit=5&from=0");
+        setUsers(await res.data);
       } catch (error) {
-      navigate("/login");        
-      }      
+        navigate("/login");
+      }
     };
     getInitial();
   }, []);
@@ -141,31 +143,12 @@ function Users() {
                 />
               ))}
             {confirmation && (
-              <>
-                {/* delete user is always the last because this component renders user-times. Which is why this component needs to be moved outside the user.map. */}
-                <div className=" bg-white w-max p-2 z-30 max-w-[80vw] text-center rounded-lg fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]">
-                  Confirm delete
-                  <p className="text-base text-gray-500">
-                    This action is irreversible. Once the user is deleted there
-                    is no way to backup their data. The action is{" "}
-                    <em className="font-bold">permanent</em>.
-                  </p>
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => handleDelete(false)}
-                      className="m-4 text-base bg-blue-400 text-white p-2 rounded-md font-bold"
-                    >
-                      Go back
-                    </button>
-                    <button
-                      onClick={() => handleDelete(true)}
-                      className="m-4 text-base bg-red-500 text-white p-2 rounded-md font-bold"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </>
+              <DeleteConfirmation
+                handleDelete={handleDelete}
+                warningText={
+                  "This action is irreversible. Once the user is deleted there is no way to backup their data. The action is"
+                }
+              />
             )}
             {confirmation && <BgBlur />}
           </InfiniteScroll>

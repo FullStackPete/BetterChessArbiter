@@ -1,16 +1,12 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import SectionContainer from "./SectionContainer";
 import { AddressModel } from "../../models/AddressModel";
 import TileTemplate from "./TileTemplate";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Icon from "../Icon";
 import useAuth from "../../hooks/useAuth";
+import DeleteConfirmation from "../AdminPanelPage/DeleteConfirmation";
+import BgBlur from "../BgBlur";
 type editInputProps = {
   defaultValue: string;
   type?: string;
@@ -38,11 +34,18 @@ function EditInput({
   );
 }
 
+type isEditedType = {
+  isEdited: boolean;
+  addressId: string;
+};
+
 function AddressBookSection() {
   const { auth } = useAuth();
-  const [isEdited, setIsEdited] = useState<boolean>(false);
+  const [isEdited, setIsEdited] = useState<isEditedType[]>([]);
   const [addresses, setAddresses] = useState<AddressModel[]>();
   const [editedValues, setEditedValues] = useState<Partial<AddressModel>>();
+  const [confirmation, setConfirmation] = useState<boolean>();
+  const [addressIdToDelete, setAddressIdToDelete] = useState<string>();
   const [newAddressValues, setNewAddressValues] = useState<
     Partial<AddressModel>
   >({ userId: auth?.decodedToken.nameid });
@@ -56,8 +59,19 @@ function AddressBookSection() {
         const res = await axiosPrivate.get(
           `/Address/user/${auth?.decodedToken.nameid}`
         );
-        console.log(res.data);
-        isMounted && setAddresses(res.data);
+        isMounted && setAddresses(res.data as AddressModel[]);
+        isMounted &&
+          setIsEdited((prevAddress) => {
+            // Map over the fetched addresses and create an array of isEdited objects
+            const newEditedStates = (res.data as AddressModel[]).map(
+              (address) => ({
+                addressId: address.id,
+                isEdited: false,
+              })
+            );
+            // Combine the existing isEdited states with the newly created ones
+            return [...prevAddress, ...newEditedStates];
+          });
       } catch (error) {
         console.log(error);
       }
@@ -89,21 +103,45 @@ function AddressBookSection() {
         break;
     }
   };
+  async function handleDelete(confirmed: boolean) {
+    // if (confirmed == true) {
+    //   try {
+    //     const res = await axiosPrivate.delete(`/User/${userIdToDelete}`);
+    //     console.log(res.data);
+    //     setUsers((prev) => prev!.filter((user) => user.id !== userIdToDelete));
+    //   } catch (err) {
+    //     console.log(err);
+    //   } finally {
+    //     console.log(users);
+    //   }
+    // }
+    setConfirmation(false);
+  }
   const handleNewAddressSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const res = await axiosPrivate.post("/Address", newAddressValues);
       if (res.status === 200) {
-        console.log(res.data);
         setAddresses((prev) => [...prev, res.data]);
       }
     } catch (error) {
       console.log("Error:", error);
     }
   };
-  const handleApproveEdit = async () => {
-    setIsEdited(false);
-    console.log(editedValues);
+
+  const handleApproveEdit = async (
+    addressId: string,
+    action: "approve" | "reject"
+  ) => {
+    setIsEdited((prevIsEdited) =>
+      prevIsEdited.map((object) =>
+        object.addressId == addressId ? { ...object, isEdited: false } : object
+      )
+    );
+    console.log(isEdited);
+    if (action == "reject") {
+      return null;
+    }
     try {
       const res = await axiosPrivate.put(
         `/Address/${auth?.decodedToken.nameid}`,
@@ -118,14 +156,24 @@ function AddressBookSection() {
           )
         );
       }
-      console.log("Res.data:", res.data);
-      console.log("Res.status:", res.status);
     } catch (error) {
       console.log(error);
     }
   };
+  const confirmAddressDelete = (userId: string) => {
+    setConfirmation(true);
+    setAddressIdToDelete(userId); // Dodaj tę linię, aby zapamiętać identyfikator użytkownika do usunięcia
+  };
   const handleEditClick = (initValues: AddressModel) => {
-    setIsEdited(!isEdited);
+    console.log(isEdited);
+    setIsEdited((prevValues) => {
+      return prevValues.map((object) => {
+        if (object.addressId === initValues.id) {
+          return { ...object, isEdited: !object.isEdited }; // Zmienia isEdited na true tylko dla pasującego adresu
+        }
+        return { ...object, isEdited: false }; // Zwraca niezmienione obiekty dla innych adresów
+      });
+    });
     setEditedValues({
       userId: initValues.userId,
       id: initValues.id,
@@ -160,7 +208,8 @@ function AddressBookSection() {
             bg={"#FBFEFB"}
             isOption={false}
           >
-            {isEdited && (
+            {isEdited.find((object) => object.addressId === address.id)
+              ?.isEdited == true && (
               <>
                 <EditInput
                   onChange={(e) => handleValueChange(e, "street", "edit")}
@@ -192,16 +241,32 @@ function AddressBookSection() {
                   fieldName="Country"
                 />
                 <br />
-                <button>
-                  <Icon
-                    onClick={handleApproveEdit}
-                    Icon="check"
-                    className="bg-green-400 rounded-sm"
-                  />
-                </button>
+                <div className="flex flex-row justify-between mx-10">
+                  <button>
+                    <Icon
+                      onClick={() => handleApproveEdit(address.id, "approve")}
+                      Icon="check"
+                      className="bg-green-400 rounded-sm"
+                    />
+                  </button>
+                  <button>
+                    <Icon
+                      onClick={() => handleApproveEdit(address.id, "reject")}
+                      Icon="close"
+                      className="bg-red-400 rounded-sm"
+                    />
+                  </button>
+                  <button>
+                    <Icon
+                      onClick={() => confirmAddressDelete(address.id)}
+                      Icon="delete"
+                    />
+                  </button>
+                </div>
               </>
             )}
-            {isEdited == false && (
+            {isEdited.find((object) => object.addressId === address.id)
+              ?.isEdited == false && (
               <>
                 <p>
                   {address.street} {address.houseNumber}
@@ -214,6 +279,13 @@ function AddressBookSection() {
             )}
           </TileTemplate>
         ))}
+        {confirmation && (
+          <DeleteConfirmation
+            handleDelete={handleDelete}
+            warningText={"The action is"}
+          />
+        )}
+        {confirmation && <BgBlur />}
       </div>
     ));
   };
