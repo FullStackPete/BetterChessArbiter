@@ -4,6 +4,8 @@ using bcaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using NuGet.Protocol.Plugins;
 using System.Data;
 using System.Security.Claims;
 
@@ -85,14 +87,15 @@ namespace bcaAPI.Controllers
             return Ok(newAddress);
         }
         [HttpDelete("{id}")]
-        public ActionResult DeleteAddress(Guid id)
+        public ActionResult DeleteAddress(string id)
         {
-            var addressOfUser = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (addressOfUser != id.ToString())
+            var idOfUser = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userIdFromAddressId = _addressService.GetAddressById(new Guid(id)).UserId.ToString();
+            if (idOfUser != userIdFromAddressId)
             {
                 return Forbid();
             }
-            var address = _addressService.GetAddressById(id);
+            var address = _addressService.GetAddressById(new Guid(id));
             try
             {
                 _addressService.DeleteAddress(address);
