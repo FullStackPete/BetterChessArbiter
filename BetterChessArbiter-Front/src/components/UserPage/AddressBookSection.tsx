@@ -103,24 +103,20 @@ function AddressBookSection() {
         break;
     }
   };
-
   async function handleDelete(confirmed: boolean) {
-    if (confirmed == true) {
-      try {
-        const res = await axiosPrivate.delete(`/Address/${addressIdToDelete}`);
-        console.log(res.data);
-        setAddresses((prev) =>
-          prev!.filter((address) => address.id !== addressIdToDelete)
-        );
-      } catch (err) {
-        console.log(err);
-      } finally {
-        console.log(addresses);
-      }
-    }
+    // if (confirmed == true) {
+    //   try {
+    //     const res = await axiosPrivate.delete(`/User/${userIdToDelete}`);
+    //     console.log(res.data);
+    //     setUsers((prev) => prev!.filter((user) => user.id !== userIdToDelete));
+    //   } catch (err) {
+    //     console.log(err);
+    //   } finally {
+    //     console.log(users);
+    //   }
+    // }
     setConfirmation(false);
   }
-
   const handleNewAddressSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -245,28 +241,25 @@ function AddressBookSection() {
                   fieldName="Country"
                 />
                 <br />
-                <div className="flex flex-row justify-between">
-                  <button>
-                    <button onClick={() => handleApproveEdit(address.id, "approve")}>
-                      Approve
-                    </button>
-                    <Icon
-                      
-                      Icon="check"
-                      className="bg-green-400 rounded-sm"
-                    />
+                <div className="flex flex-col">
+                  <div className="flex flex-row justify-between my-2">
+                  <button
+                    onClick={() => handleApproveEdit(address.id, "approve")}
+                    className="rounded-md p-2 bg-green-400 font-medium"
+                  >
+                    Approve
                   </button>
-                  <button>
-                    <Icon
-                      onClick={() => handleApproveEdit(address.id, "reject")}
-                      Icon="close"
-                      className="bg-red-400 rounded-sm"
-                    />
+                  <button
+                    className="bg-red-400 rounded-md font-medium p-2"
+                    onClick={() => handleApproveEdit(address.id, "reject")}
+                  >
+                    Reject
                   </button>
-                  <button>
-                    <Icon
-                      onClick={() => confirmAddressDelete(address.id)}
+                  </div>
+                  <button onClick={() => confirmAddressDelete(address.id)} className="rounded-md bg-gray-300 w-12 h-8 self-center items-center justify-center flex">
+                    <Icon                  
                       Icon="delete"
+                      className="text-red-500"
                     />
                   </button>
                 </div>
