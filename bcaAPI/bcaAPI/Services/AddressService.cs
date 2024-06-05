@@ -21,6 +21,7 @@ namespace bcaAPI.Services
             _BCAContextDb.SaveChanges();
 
         }
+        
 
         public void DeleteAddress(Address address)
         {
@@ -40,9 +41,17 @@ namespace bcaAPI.Services
 
         public void EditAddress(Address address)
         {
-            var addressToEdit = _BCAContextDb.Addresses.FirstOrDefault();
+            var addressToEdit = _BCAContextDb.Addresses.Find(address.Id); // fix this fucking shit 
             if (addressToEdit != null)
             {
+                if (address.isPrimary)
+                {
+                    var userAdresses = _BCAContextDb.Addresses.Where(a => a.UserId == address.UserId && a.Id != address.Id).ToList();
+                    foreach(var addr in userAdresses)
+                    {
+                        addr.isPrimary = false;
+                    }
+                }
                 addressToEdit.Name = address.Name;
                 addressToEdit.Country = address.Country;
                 addressToEdit.City = address.City;
@@ -52,6 +61,10 @@ namespace bcaAPI.Services
                 addressToEdit.isPrimary = address.isPrimary;
 
                 _BCAContextDb.Addresses.Update(addressToEdit);
+                _BCAContextDb.ChangeTracker.DetectChanges();
+                Console.WriteLine(_BCAContextDb.ChangeTracker.DebugView.LongView);
+
+
                 _BCAContextDb.SaveChanges();
             }
         }

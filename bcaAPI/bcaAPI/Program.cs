@@ -51,6 +51,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<ITournamentService, TournamentService>();
 builder.Services.AddScoped<PasswordService>();
+builder.Services.AddHttpClient<IGoogleMapService, GoogleMapService>();
+builder.Services.AddScoped<IGoogleMapService, GoogleMapService>();
 builder.Services.AddDbContext<BCAContextDb>(
     option => option.UseMongoDB(mongoDbSettings.AtlasURI, mongoDbSettings.DatabaseName)
     ) ;

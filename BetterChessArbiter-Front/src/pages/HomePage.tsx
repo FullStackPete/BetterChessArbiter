@@ -5,6 +5,19 @@ import ImageGallery from "../components/ImageGallery";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
 
+type ContainerProps = {
+  extraSecClass?:string
+  extraDivClass?:string
+  children:React.ReactNode
+}
+
+function Container({extraSecClass, extraDivClass, children}: ContainerProps){
+  return <section className={`md:flex md:justify-center ${extraSecClass}`}>
+    <div className={`md:w-7/12 md:flex md:justify-center md:flex-col ${extraDivClass}`}>{children}</div>
+  </section>
+}
+
+
 function HomePage() {
   const { auth } = useAuth();
   useEffect(() => {
@@ -13,7 +26,8 @@ function HomePage() {
   const navigate = useNavigate();
   return (
     <>
-      <section className="h-fit mt-12 bg-[#D0B8AC] pb-24">
+      <Container extraSecClass="h-fit mt-12 bg-[#D0B8AC] pb-24 ">
+        
         <p className="font-semibold text-2xl">Welcome to BetterChessArbiter</p>
         <p className="text-xl mt-4">
           Browse the most popular tournaments as well as your favourites in a
@@ -53,9 +67,7 @@ function HomePage() {
             )}
             {auth?.role && 
             <button
-            onClick={() => navigate("/register")}
-            className="rounded-lg px-4 py-2 text-xl font-semibold bg-white border-2 border-[#F3D8C7]"
-          >
+            onClick={() => navigate(`/user/${auth.decodedToken.nameid}#favourites`)} className="rounded-lg px-4 py-2 text-xl font-semibold bg-white border-2 border-[#F3D8C7]">
             Favourites
           </button>
             
@@ -72,9 +84,9 @@ function HomePage() {
           fill="#EFEFEF"
           viewBox="0 0 1200 120"
         />
-      </section>
+      </Container>
 
-      <section className="h-min-fit pb-16">
+      <Container extraSecClass="h-min-fit pb-16">
         <p className="text-2xl text-black">
           Most popular tournaments in Poland
         </p>
@@ -84,8 +96,8 @@ function HomePage() {
           fill={"#FFFFFF"}
           viewBox={"0 0 1200 120"}
         />
-      </section>
-      <section className="bg-[#FFFFFF] h-min-fit pb-32">
+      </Container>
+      <Container extraSecClass="bg-[#FFFFFF] h-min-fit pb-32">
         <p className="text-2xl text-center">
           Enroll to the tournaments of your choice in a matter of seconds!
         </p>
@@ -114,7 +126,7 @@ function HomePage() {
           viewBox={"140 0 800 80"}
           rotate={true}
         />
-      </section>
+      </Container>
     </>
   );
 }

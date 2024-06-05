@@ -71,21 +71,24 @@ namespace bcaAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateAddress(Address newAddress) {
-            var addressOfUser = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            if (addressOfUser != newAddress.UserId.ToString())
+        public ActionResult UpdateAddress(Address newAddress)
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (userId != newAddress.UserId.ToString())
             {
-                return Forbid(); 
-            }            
+                return Forbid();
+            }
             try
             {
-                _addressService.EditAddress(newAddress);                
+                _addressService.EditAddress(newAddress);
             }
-            catch (DBConcurrencyException ex) {
-                return BadRequest(ex.Message);  
+            catch (DBConcurrencyException ex)
+            {
+                return BadRequest(ex.Message);
             }
             return Ok(newAddress);
         }
+
         [HttpDelete("{id}")]
         public ActionResult DeleteAddress(string id)
         {

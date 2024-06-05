@@ -1,4 +1,5 @@
-﻿using bcaAPI.Models.Tournament;
+﻿using bcaAPI.Models;
+using bcaAPI.Models.Tournament;
 using bcaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@ namespace bcaAPI.Controllers
     {
         private readonly ITournamentService _tournamentService;
         private readonly IUserService _userService;
-        public TournamentController(ITournamentService tournamentService, IUserService userService)
+        private readonly IGoogleMapService _googleMapService;
+        public TournamentController(ITournamentService tournamentService, IUserService userService, IGoogleMapService googleMapService)
         {
             _tournamentService = tournamentService;
             _userService = userService;
+            _googleMapService = googleMapService;
         }
         
         [HttpGet("mostpopulartournaments")]
@@ -81,6 +84,23 @@ namespace bcaAPI.Controllers
             }
             _tournamentService.DeleteTournament(tournament);            
             return NoContent();
+        }
+        [HttpGet("coordinates/{id}")]
+        public async Task<ActionResult<Coordinates>> GetCoordinates(Guid id)
+        {
+            
+                var tournament = _tournamentService.GetTournamentById(id);
+                if(tournament == null)
+                {
+                    return NotFound("ERROR");
+                }
+                var place = tournament.Details.Place;
+
+                var coordinates = await _googleMapService.GetCoordinatesAsync(place);
+                return Ok(coordinates);
+
+                      
+
         }
         
     }

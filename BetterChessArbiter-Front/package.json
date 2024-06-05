@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.19.3",
     "@types/validator": "^13.11.9",
     "axios": "^1.6.8",
     "jwt-decode": "^4.0.0",

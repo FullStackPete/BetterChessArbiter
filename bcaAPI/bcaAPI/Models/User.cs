@@ -1,4 +1,5 @@
 ﻿using MongoDB.EntityFrameworkCore;
+using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,5 +38,6 @@ namespace bcaAPI.Models
         [DefaultValue(UserRoles.User)]
         public string Role { get; set; } = UserRoles.User;
         public string RefreshToken { get; set; }
+        public IEnumerable<Guid> FavouriteTournaments { get; set; }
     }
 }

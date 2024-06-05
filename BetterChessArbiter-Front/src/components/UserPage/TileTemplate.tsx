@@ -11,8 +11,10 @@ type TileTemplateProps = {
   children?:ReactNode;
   isOption: boolean;
   onIconClick?:()=>void | ((arg1:string)=>void);
+  className?:string;
 };
 function TileTemplate({
+  className,
   topText,
   description,
   iconName,
@@ -42,7 +44,7 @@ function TileTemplate({
     return (
       <div
         style={{ backgroundColor: bg }}
-        className="w-1/2 rounded-lg p-4 shadow-md m-2"
+        className={`w-1/2 rounded-lg p-4 shadow-md m-2 ${className}`}
         onClick={onClickFn}
       >
         <div className="justify-between flex flex-row">

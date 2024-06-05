@@ -15,6 +15,7 @@ function useRefreshToken() {
     });
     const newAccessToken: string = response.data.token;
     const newDecodedToken = jwtDecode(newAccessToken);
+    console.log(newDecodedToken);
     setAuth((prev: AuthType | undefined) => {
       if (!prev) {
         throw new Error("No previous auth state specified"); // Return undefined if previous state is undefined

@@ -7,6 +7,7 @@ export type AuthType = {
   decodedToken: JwtPayload;
 };
 
+
 type AuthContext = {
   auth: AuthType | undefined;
   setAuth: React.Dispatch<React.SetStateAction<AuthType | undefined>>;
